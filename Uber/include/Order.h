@@ -20,15 +20,16 @@ public:
 	Order();
 	int getOrderId() const;
 	bool isAccepted() const;
-	const std::string& getDriverName() const;
-	const std::string& getCarNum() const;
-	const std::string& getDriverPhoneNum() const;
+	//const std::string& getDriverName() const;
+	//const std::string& getCarNum() const;
+	//const std::string& getDriverPhoneNum() const;
 	double getDriverRating() const;
 	const Address& getStartAddress() const;
 	const Address& getDestAddress() const;
 	size_t getPassengersNum() const;
 	int getIdOrderPerson() const; //nz dali mi trqq vuobshte
 	size_t getMinutesTillArrival() const;
+	const Driver* getDriver() const;
 
 	void setAccepted(bool isAccepted);
 	void setDriverName(const std::string& driverName);

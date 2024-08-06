@@ -20,4 +20,8 @@ public:
 	poruchka, avtomatichno vsichki drugi se preprashtat na sledvashtite nai-blizki shofiori
 	void decline_order(int id) const; // shoforiut otkazva poruchka po podadeno id na poruchka
 	void finish_order(int id); // tova smenq adresa mu i go pravi na svoboden.
+
+	const std::string& getCarNum() const;
+	const std::string& getPhoneNum() const;
+	double getRating() const;
 };

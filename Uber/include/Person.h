@@ -34,6 +34,7 @@ public:
 	size_t getBalance() const;
 	Types getType() const;
 	size_t getId() const;
+	void addMessage(const std::string& str);
 	
 	//virtual Person* clone() const = 0;
 	virtual ~Person() = default;
