@@ -2,7 +2,7 @@
 
 #include "Person.h"
 #include "Order.h"
-#include "Address.h"
+//#include "Address.h"
 
 class Client : public Person
 {
@@ -12,7 +12,7 @@ class Client : public Person
 	size_t validatePassengersNum() const;
 public:
 	Client() = default;
-	void makeOrder(Address& CurrAddress, Address& finalDest, int& numPassengers) const; // prashta se na shofiora, koito e nai-blizko po adres \
+	const Order* makeOrder(Address& CurrAddress, Address& finalDest, int& numPassengers) const; // prashta se na shofiora, koito e nai-blizko po adres \
 	kato ne moje da se prati na zaet shofior.
 	void check_order() const; //proverqva segashnata mi poruchka
 	void cancel_order(); //cancel-va negovata si poruchka. Edin potrebitel shte moje da pravi samo edna poruchka ednovremenno.
