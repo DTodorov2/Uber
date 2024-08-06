@@ -6,7 +6,7 @@
 
 class Client : public Person
 {
-	Order order;
+	Order* order; //trqbva li da triq tozi pointer pri iztrivane na obekta
 
 	void addressInput(const std::string& str1, const std::string& str2, Address& address) const;
 	size_t validatePassengersNum() const;
