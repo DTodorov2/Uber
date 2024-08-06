@@ -5,7 +5,7 @@
 
 class Order
 {
-	bool accepted;
+	bool accepted, finished;
 	//std::string driverName;
 	//std::string carNum;
 	//std::string driverPhoneNum;
@@ -20,6 +20,7 @@ public:
 	Order();
 	int getOrderId() const;
 	bool isAccepted() const;
+	bool isFinished() const;
 	//const std::string& getDriverName() const;
 	//const std::string& getCarNum() const;
 	//const std::string& getDriverPhoneNum() const;

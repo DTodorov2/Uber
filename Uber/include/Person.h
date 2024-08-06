@@ -25,6 +25,7 @@ public:
 	void setPassword(const std::string& newPass);
 	void setFirstName(const std::string& newFirst);
 	void setLastName(const std::string& newLast);
+	void setBalance(double amount);
 	
 	const std::string& getUsername() const;
 	const std::string& getPassword() const;
