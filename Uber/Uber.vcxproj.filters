@@ -27,12 +27,27 @@
     <ClInclude Include="include\System.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Address.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Person.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Uber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

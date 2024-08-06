@@ -1,6 +1,10 @@
 #include <iostream>
+#include "../include/Client.h"
 
 int main()
 {
-    std::cout << "pravq promqna\n";
+    Client cl = Client();
+    Address ad1, ad2;
+    int pass;
+    cl.makeOrder(ad1, ad2, pass);
 }

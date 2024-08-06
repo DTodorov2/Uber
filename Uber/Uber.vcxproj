@@ -127,12 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Address.h" />
+    <ClInclude Include="include\Client.h" />
+    <ClInclude Include="include\Driver.h" />
     <ClInclude Include="include\GlobalConstants.h" />
     <ClInclude Include="include\Order.h" />
     <ClInclude Include="include\Person.h" />
+    <ClInclude Include="include\Point.h" />
     <ClInclude Include="include\System.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Client.cpp" />
     <ClCompile Include="src\Person.cpp" />
     <ClCompile Include="src\Uber.cpp" />
   </ItemGroup>

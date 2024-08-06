@@ -35,6 +35,6 @@ public:
 	Types getType() const;
 	size_t getId() const;
 	
-	virtual Person* clone() const = 0;
+	//virtual Person* clone() const = 0;
 	virtual ~Person() = default;
 };
