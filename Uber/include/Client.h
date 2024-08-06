@@ -9,7 +9,7 @@ class Client : public Person
 	Order* order; //trqbva li da triq tozi pointer pri iztrivane na obekta
 
 	void addressInput(const std::string& str1, const std::string& str2, Address& address) const;
-	size_t validatePassengersNum() const;
+	size_t validateNum(const std::string& str, char constraintL, char constraintR) const;
 public:
 	Client() = default;
 	const Order* makeOrder(Address& CurrAddress, Address& finalDest, int& numPassengers) const; // prashta se na shofiora, koito e nai-blizko po adres \
@@ -17,7 +17,7 @@ public:
 	void check_order() const; //proverqva segashnata mi poruchka
 	void cancel_order(); //cancel-va negovata si poruchka. Edin potrebitel shte moje da pravi samo edna poruchka ednovremenno.
 	void pay(double amount); //plashta na shofiora SLED kato e otbelqzal poruchkata za izpulnena.
-	void rate() const; //rate-va shofiora, koito e izpulnin poruchkata, kato pri zavurshvane se zadava vupros kum potrebitelq dali iska da dade \
+	int rate() const; //rate-va shofiora, koito e izpulnin poruchkata, kato pri zavurshvane se zadava vupros kum potrebitelq dali iska da dade \
 	ocenka, ako kaje da, to se vzema id-to na shofiora ot order-a i se dava ocenka, ako ne - produljava se deistvieto na programata.
-	void add_money(double amount); //dobavq pari kum balance-a si.
+	void add_money(); //dobavq pari kum balance-a si.
 };

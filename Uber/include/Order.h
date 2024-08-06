@@ -30,7 +30,7 @@ public:
 	size_t getPassengersNum() const;
 	int getIdOrderPerson() const; //nz dali mi trqq vuobshte
 	size_t getMinutesTillArrival() const;
-	const Driver* getDriver() const;
+	Driver* getDriver() const;
 
 	void setAccepted(bool isAccepted);
 	void setDriverName(const std::string& driverName);

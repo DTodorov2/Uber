@@ -24,4 +24,5 @@ public:
 	const std::string& getCarNum() const;
 	const std::string& getPhoneNum() const;
 	double getRating() const;
+	void setRating(int rating);
 };
