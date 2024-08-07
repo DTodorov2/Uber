@@ -15,9 +15,11 @@ class Order
 	Address destAddress;
 	size_t passengersNum;
 	size_t minutesTillArrival;
-	int idOrderPerson; //tova nz dali mi trqq
+	std::string nameOrderPerson;
+	//int idOrderPerson; //tova nz dali mi trqq
 public:
 	Order();
+	Order(const Address& startAdd, const Address& finalAdd, size_t numPass, const std::string& nameOrderPerson);
 	int getOrderId() const;
 	bool isAccepted() const;
 	bool isFinished() const;
@@ -37,7 +39,7 @@ public:
 	void setCarNum(const std::string& carNum);
 	void setDriverPhoneNum(const std::string& driverPhoneNum);
 	void setIdOrder(int idOrder) const;
-	void setStartAddress(const Address& startAddress);
-	void setDestAddress(const Address& destAddress);
+	void setAddress(const Address& newAddress, Address& AddressToChange);
+	//void setDestAddress(const Address& destAddress);
 	void setPassengersNum(size_t passNum);
 };
