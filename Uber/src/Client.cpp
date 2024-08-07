@@ -53,7 +53,7 @@ void Client::cancel_order()
 	order = nullptr;
 }
 
-void Client::pay(double amount)
+void Client::pay(double amount) //pay se griji za plashtaneto na driver-a
 {
 	if (order->isFinished())
 	{
@@ -64,6 +64,10 @@ void Client::pay(double amount)
 			return;
 		}
 		setBalance(newBalance);
+		size_t driverBalance = order->getDriver()->getBalance();
+		order->getDriver()->setBalance(driverBalance + amount);
+		delete order;
+		order = nullptr;
 	}
 	else
 	{
