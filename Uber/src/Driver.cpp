@@ -34,7 +34,8 @@ i nqma da ima smisul da go vrushtam ot taq funkciq
 	orders[orderId - 1]->setAccepted(true);
 	orders[orderId - 1]->setDriver(this);
 	orders[orderId - 1]->setMinutes(minutes);
-}
+	busy = true;
+} // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
 
 void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 {
@@ -48,7 +49,20 @@ void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 		orders[orderId - 1]->setDriver(nullptr); //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
 			da q ostavim v purvonachalno sustoqnie
 		orders[orderId - 1]->setMinutes(0);
+		busy = false;
 	}
 	orders[orderId - 1] = orders[orders.size() - 1];
 	orders.pop_back();
+}
+
+void Driver::finish_order(int orderId)
+{
+	if (orderId < 1 || orderId > orders.size())
+	{
+		throw std::invalid_argument("Invalid orderId!");
+	}
+	busy = false;
+	setAddress(orders[orderId - 1]->getDestAddress());
+	orders.pop_back(); //sled tozi red, bi trqbvalo v orders da nqma nishto i da e sus size 0
+	//pri pay se iztriva samata poruchka, sled kato se plati, shtoto vinagi sled finish_order trqbva da se plati i taka nqma da ostane visqshta pamet
 }

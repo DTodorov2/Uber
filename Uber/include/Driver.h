@@ -23,6 +23,9 @@ public:
 
 	const std::string& getCarNum() const;
 	const std::string& getPhoneNum() const;
+	size_t getCapacity() const;
 	double getRating() const;
+
 	void setRating(int rating);
+	void setAddress(const Address& newAdd);
 };
