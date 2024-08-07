@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\GlobalConstants.h">
+    <ClInclude Include="include\Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Order.h">
@@ -51,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Order.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -130,7 +130,7 @@
     <ClInclude Include="include\Address.h" />
     <ClInclude Include="include\Client.h" />
     <ClInclude Include="include\Driver.h" />
-    <ClInclude Include="include\GlobalConstants.h" />
+    <ClInclude Include="include\Helper.h" />
     <ClInclude Include="include\Order.h" />
     <ClInclude Include="include\Person.h" />
     <ClInclude Include="include\Point.h" />
@@ -138,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Client.cpp" />
+    <ClCompile Include="src\Driver.cpp" />
+    <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\Order.cpp" />
     <ClCompile Include="src\Person.cpp" />
     <ClCompile Include="src\Uber.cpp" />

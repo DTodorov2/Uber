@@ -58,10 +58,10 @@ size_t Person::getId() const
 	return id;
 }
 
-Types Person::getType() const
-{
-	return type;
-}
+//Types Person::getType() const
+//{
+//	return type;
+//}
 
 size_t Person::getBalance() const
 {

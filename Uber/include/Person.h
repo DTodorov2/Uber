@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Order.h"
-#include "GlobalConstants.h"
+#include "Helper.h"
 
 class Person {
 	size_t id;
@@ -12,14 +12,14 @@ class Person {
 	std::string last_name;
 	std::vector<std::string> messages;
 	size_t balance;
-	Types type;
+	//Types type;
 
 	//bool validateName(const std::string& str) const;
 
 public:
 
 	Person();
-	Person(size_t id, Types type, const std::string& username, const std::string& password, const std::string& first_name, const std::string& last_name);
+	Person(size_t id, /*Types type, */const std::string& username, const std::string& password, const std::string& first_name, const std::string& last_name);
 
 	void setUsername(const std::string& newUsername);
 	void setPassword(const std::string& newPass);
@@ -33,7 +33,7 @@ public:
 	const std::string& getSecondName() const;
 	const std::vector<std::string>& getMessages() const; //tuka moje da trqbva i std::string da e const
 	size_t getBalance() const;
-	Types getType() const;
+	//Types getType() const;
 	size_t getId() const;
 	void addMessage(const std::string& str);
 	
