@@ -1,24 +1,5 @@
 #include "../include/Client.h"
 
-void Client::addressInput(const std::string& str1, const std::string& str2, Address& address) const // trqbva li da q razdelqm na oshte -> ne mislq
-{
-	std::string addressName, additionalInfo;
-	int coordinateX = 0, coordinateY = 0;
-	std::cout << str1;
-	std::getline(std::cin, addressName);
-	std::cout << str2;
-	std::cin >> coordinateX;
-	std::cin.ignore();
-	std::cout << "coordY: ";
-	std::cin >> coordinateY;
-	std::cin.ignore();
-	std::cout << "Additional info (optional): " << std::endl;
-	std::getline(std::cin, additionalInfo);
-	address.setName(addressName);
-	address.setPoint(coordinateX, coordinateY);
-	address.setAdditionalInfo(additionalInfo);
-}
-
 size_t Client::validateNum(const std::string& str, char constraintL, char constraintR) const
 {
 	std::string passengers;
@@ -41,8 +22,8 @@ const Order* Client::makeOrder(Address& currAddress, Address& finalDest, int& nu
 		std::cout << "You cannot make an order, while you have one in action!" << std::endl;
 		return;
 	}
-	addressInput("Enter your current address: ", "Enter your current coordinates:\ncoordX: ", currAddress);
-	addressInput("Enter the final destination: ", "Enter the final destination coordinates:\ncoordX: ", finalDest);
+	Helper::addressInput("Enter your current address name: ", "Enter your current coordinates:\ncoordX: ", currAddress, 'c');
+	Helper::addressInput("Enter the final destination: ", "Enter the final destination coordinates:\ncoordX: ", finalDest, 'c');
 	numPassengers = validateNum("Enter number of passengers (The number must be between 1 and 7): ", '1', '7');
 	Order* newOrder = new Order;
 	newOrder->setStartAddress(currAddress);
@@ -56,11 +37,11 @@ void Client::check_order() const
 	std::cout << "Your order is ";
 	if (order->isAccepted())
 	{
-		std::cout << "accepted" << std::endl;
+		std::cout << "accepted!" << std::endl;
 	}
 	else
 	{
-		std::cout << "is not accepted yet!" << std::endl;
+		std::cout << "not accepted yet!" << std::endl;
 		return;
 	}
 	std::cout << "Your driver's name: " << order->getDriver()->getFirstName() << " " << order->getDriver()->getSecondName() << std::endl;
@@ -107,11 +88,16 @@ void Client::add_money()
 	std::getline(std::cin, amount);
 	try
 	{
-		setBalance(getBalance() + std::stod(amount));
+		size_t pos;
+		setBalance(getBalance() + std::stod(amount, &pos));
+		if (pos < amount.length())
+		{
+			throw std::invalid_argument("");
+		}
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "The amount must contain only digits" << std::endl;
+		std::cout << "The amount must contain only digits!" << std::endl;
 		add_money();
 	}
 }

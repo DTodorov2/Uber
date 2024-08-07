@@ -8,7 +8,6 @@ class Client : public Person
 {
 	Order* order; //trqbva li da triq tozi pointer pri iztrivane na obekta
 
-	void addressInput(const std::string& str1, const std::string& str2, Address& address) const;
 	size_t validateNum(const std::string& str, char constraintL, char constraintR) const;
 public:
 	Client() = default;
