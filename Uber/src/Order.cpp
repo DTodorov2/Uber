@@ -1,6 +1,6 @@
 #include "../include/Order.h"
 
-size_t Order::idOrder = 0;
+//size_t Order::idOrder = 0;
 
 Order::Order()
 {
@@ -13,7 +13,7 @@ Order::Order()
 
 Order::Order(const Address& startAdd, const Address& finalAdd, size_t numPass, const std::string& nameOrderPerson) : Order()
 {
-	idOrder++;
+	idOrder = idNum++;
 	setDriverName(nameOrderPerson);
 	setAddress(startAdd, this->startAddress);
 	setAddress(finalAdd, this->destAddress);

@@ -25,10 +25,7 @@ const Order* Client::makeOrder(Address& currAddress, Address& finalDest, int& nu
 	Helper::addressInput("Enter your current address name: ", "Enter your current coordinates:\ncoordX: ", currAddress, 'c');
 	Helper::addressInput("Enter the final destination: ", "Enter the final destination coordinates:\ncoordX: ", finalDest, 'c');
 	numPassengers = validateNum("Enter number of passengers (The number must be between 1 and 7): ", '1', '7');
-	Order* newOrder = new Order;
-	newOrder->setStartAddress(currAddress);
-	newOrder->setDestAddress(finalDest);
-	newOrder->setPassengersNum(numPassengers);
+	Order* newOrder = new Order(currAddress, finalDest, numPassengers, getFirstName() + getSecondName());
 	return newOrder;
 }
 

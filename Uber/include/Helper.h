@@ -3,6 +3,7 @@
 #include "Address.h"
 
 const int MAX_LENGTH_STRING = 1024;
+static int idNum = 0;
 
 class Helper
 {
