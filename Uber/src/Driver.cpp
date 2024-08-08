@@ -66,3 +66,33 @@ void Driver::finish_order(int orderId)
 	orders.pop_back(); //sled tozi red, bi trqbvalo v orders da nqma nishto i da e sus size 0
 	//pri pay se iztriva samata poruchka, sled kato se plati, shtoto vinagi sled finish_order trqbva da se plati i taka nqma da ostane visqshta pamet
 }
+
+const std::string& Driver::getCarNum() const
+{
+	return carNum;
+}
+
+const std::string& Driver::getPhoneNum() const
+{
+	return phoneNum;
+}
+
+size_t Driver::getCapacity() const
+{
+	return capacity;
+}
+
+double Driver::getRating() const
+{
+	return rating;
+}
+
+void Driver::setRating(int givenRating)
+{
+	rating = (rating + givenRating) / 2;
+}
+
+void Driver::setAddress(const Address& newAdd)
+{
+	address = newAdd;
+}
