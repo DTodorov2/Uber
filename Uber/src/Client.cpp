@@ -1,5 +1,8 @@
 #include "../include/Client.h"
 
+Client::Client(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName) :
+	Person(id, username, pass, firstName, secondName) {};
+
 size_t Client::validateNum(const std::string& str, char constraintL, char constraintR) const
 {
 	std::string passengers;
@@ -15,24 +18,23 @@ size_t Client::validateNum(const std::string& str, char constraintL, char constr
 	return passengers[0] - '0';
 }
 
-const Order* Client::makeOrder(Address& currAddress, Address& finalDest, int& numPassengers) const
+Order Client::makeOrder(Address& currAddress, Address& finalDest, int& numPassengers) const
 {
-	if (order->getOrderId() != -1)
+	if (order.getPassengersNum() != 0) // trqbva da vidq kak da proverq dali imam order veche
 	{
 		std::cout << "You cannot make an order, while you have one in action!" << std::endl;
-		return;
+		return order;
 	}
 	Helper::addressInput("Enter your current address name: ", "Enter your current coordinates:\ncoordX: ", currAddress, 'c');
 	Helper::addressInput("Enter the final destination: ", "Enter the final destination coordinates:\ncoordX: ", finalDest, 'c');
 	numPassengers = validateNum("Enter number of passengers (The number must be between 1 and 7): ", '1', '7');
-	Order* newOrder = new Order(currAddress, finalDest, numPassengers, getFirstName() + getSecondName());
-	return newOrder;
+	return Order(getId(), currAddress, finalDest, numPassengers, getFirstName() + " " + getSecondName()); // RVO?
 }
 
 void Client::check_order() const
 {
 	std::cout << "Your order is ";
-	if (order->isAccepted())
+	if (order.isAccepted())
 	{
 		std::cout << "accepted!" << std::endl;
 	}
@@ -41,21 +43,20 @@ void Client::check_order() const
 		std::cout << "not accepted yet!" << std::endl;
 		return;
 	}
-	std::cout << "Your driver's name: " << order->getDriver()->getFirstName() << " " << order->getDriver()->getSecondName() << std::endl;
-	std::cout << "The car number is: " << order->getDriver()->getCarNum() << std::endl;
-	std::cout << "The driver's phone number is: " << order->getDriver()->getPhoneNum() << std::endl;
-	std::cout << "The driver's rating is: " << order->getDriver()->getRating() << std::endl;
+	std::cout << "Your driver's name: " << order.getDriver()->getFirstName() << " " << order.getDriver()->getSecondName() << std::endl;
+	std::cout << "The car number is: " << order.getDriver()->getCarNum() << std::endl;
+	std::cout << "The driver's phone number is: " << order.getDriver()->getPhoneNum() << std::endl;
+	std::cout << "The driver's rating is: " << order.getDriver()->getRating() << std::endl;
 }
 
 void Client::cancel_order()
 {
-	delete order;
-	order = nullptr;
+	order = Order();
 }
 
 void Client::pay(double amount) //pay se griji za plashtaneto na driver-a
 {
-	if (order->isFinished())
+	if (order.isFinished())
 	{
 		double newBalance = getBalance() - amount;
 		if (newBalance < 0)
@@ -64,10 +65,8 @@ void Client::pay(double amount) //pay se griji za plashtaneto na driver-a
 			return;
 		}
 		setBalance(newBalance);
-		size_t driverBalance = order->getDriver()->getBalance();
-		order->getDriver()->setBalance(driverBalance + amount);
-		delete order;
-		order = nullptr;
+		size_t driverBalance = order.getDriver()->getBalance();
+		order.getDriver()->setBalance(driverBalance + amount);
 	}
 	else
 	{
