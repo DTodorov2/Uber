@@ -6,14 +6,15 @@ class Driver : public Person
 {
 	std::string phoneNum;
 	std::string carNum;
-	bool busy;
-	double rating;
-	std::vector<Order*> orders; // pravq go taka, shtoto shte e po-lesno smenqneto na mestata, mahaneto i dobavqneto na elementi.
+	bool busy = false;
+	double rating = 0;
+	std::vector<Order> orders; // pravq go taka, shtoto mnogo poveche shte dostupvam poruchkite i taka shte bude po-byrz samiqt dostup
 	Address address;
 	size_t capacity;
 
 	//BIG 6
 public:
+	Driver(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName, const std::string& carNum, const std::string& phoneNum);
 	void changeAddress(); //promenq tekushtiq address na shofiora, kato pita za ime na adresa, i koordinati.
 	void check_messages() const; // proverqva suobshteniqta, koito sistemata e izpratila na driver-a
 	void accept_order(int orderId, int minutes); //priema pruchka po neinoto id i do kolko minuti shte e na adresa. -> kogato prieme dadena \
@@ -28,4 +29,6 @@ public:
 
 	void setRating(int rating);
 	void setAddress(const Address& newAdd);
+	void setPhoneNum(const std::string& newPhoneNum);
+	void setCarNum(const std::string& newCarNum);
 };

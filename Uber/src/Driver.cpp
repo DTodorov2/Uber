@@ -1,5 +1,12 @@
 #include "../include/Driver.h"
 
+Driver::Driver(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName, const std::string& carNum, const std::string& phoneNum) :
+	Person(id, username, pass, firstName, secondName)
+{
+	setCarNum(carNum);
+	setPhoneNum(phoneNum);
+};
+
 void Driver::changeAddress()
 {
 	Helper::addressInput("Enter the new destination name: ", "Enter the new coordinates : \ncoordX: ", this->address);
@@ -11,16 +18,16 @@ void Driver::check_messages() const
 	for (size_t i = 0; i < orderVecLen; i++)
 	{
 		std::cout << "Order number: " << i + 1 << std::endl;
-		std::cout << orders[i]->getNameOrderPerson() << "has made an order from: " << std::endl;
-		std::cout << orders[i]->getStartAddress().getName() << " " 
-				<< orders[i]->getStartAddress().getPoint().x << " " 
-				<< orders[i]->getStartAddress().getPoint().y << " " 
-				<< orders[i]->getStartAddress().getAddInfo() << std::endl;
+		std::cout << orders[i].getNameOwner() << "has made an order from: " << std::endl;
+		std::cout << orders[i].getStartAddress().getName() << " " 
+				<< orders[i].getStartAddress().getPoint().getCoordX() << " " 
+				<< orders[i].getStartAddress().getPoint().getCoordY() << " " 
+				<< orders[i].getStartAddress().getAddInfo() << std::endl;
 		std::cout << "To: " << std::endl;
-		std::cout << orders[i]->getDestAddress().getName() << " "
-			<< orders[i]->getDestAddress().getPoint().x << " "
-			<< orders[i]->getDestAddress().getPoint().y << " "
-			<< orders[i]->getDestAddress().getAddInfo() << std::endl;
+		std::cout << orders[i].getDestAddress().getName() << " "
+			<< orders[i].getDestAddress().getPoint().getCoordX() << " "
+			<< orders[i].getDestAddress().getPoint().getCoordY() << " "
+			<< orders[i].getDestAddress().getAddInfo() << std::endl;
 	}
 }
 
@@ -31,9 +38,9 @@ i nqma da ima smisul da go vrushtam ot taq funkciq
 	{
 		throw std::invalid_argument("Invalid orderId!");
 	}
-	orders[orderId - 1]->setAccepted(true);
-	orders[orderId - 1]->setDriver(this);
-	orders[orderId - 1]->setMinutes(minutes);
+	orders[orderId - 1].setAccepted(true);
+	orders[orderId - 1].setDriver(this);
+	orders[orderId - 1].setMinutes(minutes);
 	busy = true;
 } // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
 
@@ -43,12 +50,12 @@ void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 	{
 		throw std::invalid_argument("Invalid orderId!");
 	}
-	if (orders[orderId - 1]->getDriver() == this)
+	if (orders[orderId - 1].getDriver() == this)
 	{
-		orders[orderId - 1]->setAccepted(false);
-		orders[orderId - 1]->setDriver(nullptr); //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
+		orders[orderId - 1].setAccepted(false);
+		orders[orderId - 1].setDriver(nullptr); //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
 			da q ostavim v purvonachalno sustoqnie
-		orders[orderId - 1]->setMinutes(0);
+		orders[orderId - 1].setMinutes(0);
 		busy = false;
 	}
 	orders[orderId - 1] = orders[orders.size() - 1];
@@ -62,7 +69,7 @@ void Driver::finish_order(int orderId)
 		throw std::invalid_argument("Invalid orderId!");
 	}
 	busy = false;
-	setAddress(orders[orderId - 1]->getDestAddress());
+	setAddress(orders[orderId - 1].getDestAddress());
 	orders.pop_back(); //sled tozi red, bi trqbvalo v orders da nqma nishto i da e sus size 0
 	//pri pay se iztriva samata poruchka, sled kato se plati, shtoto vinagi sled finish_order trqbva da se plati i taka nqma da ostane visqshta pamet
 }
@@ -95,4 +102,14 @@ void Driver::setRating(int givenRating)
 void Driver::setAddress(const Address& newAdd)
 {
 	address = newAdd;
+}
+
+void Driver::setCarNum(const std::string& carNum)
+{
+	this->carNum = carNum;
+}
+
+void Driver::setPhoneNum(const std::string& phoneNum)
+{
+	this->phoneNum = phoneNum;
 }
