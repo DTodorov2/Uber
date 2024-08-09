@@ -1,17 +1,17 @@
 #include "../include/Person.h"
 
-Person::Person(size_t id, Types type, const std::string& username, const std::string& password, const std::string& first_name, const std::string& last_name)
+Person::Person(size_t id, /*Types type,*/ const std::string& username, const std::string& password, const std::string& first_name, const std::string& last_name)
 {
 	setFirstName(first_name);
 	setLastName(last_name);
 	setPassword(password);
 	setUsername(username);
 	this->id = id;
-	this->type = type;
+	//this->type = type;
 	balance = 0;
 }
 
-Person::Person() : Person(0, Types::person, "", "", "", "") {};
+Person::Person() : Person(0, /*Types::person,*/ "", "", "", "") {};
 
 void Person::setFirstName(const std::string& firstName)
 {
