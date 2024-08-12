@@ -8,11 +8,11 @@ class Client : public Person
 {
 	Order order; //trqbva li da triq tozi pointer pri iztrivane na obekta
 
-	size_t validateNum(const std::string& str, char constraintL, char constraintR) const;
+	//size_t validateNum(const std::string& str, char constraintL, char constraintR) const;
 public:
 	Client() = default;
 	Client(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName);
-	Order makeOrder(Address& CurrAddress, Address& finalDest, int& numPassengers) const; // prashta se na shofiora, koito e nai-blizko po adres \
+	Order makeOrder(size_t idOwner, size_t id, Address& CurrAddress, Address& finalDest, int& numPassengers); // prashta se na shofiora, koito e nai-blizko po adres \
 	kato ne moje da se prati na zaet shofior.
 	void check_order() const; //proverqva segashnata mi poruchka
 	void cancel_order(); //cancel-va negovata si poruchka. Edin potrebitel shte moje da pravi samo edna poruchka ednovremenno.
@@ -22,4 +22,6 @@ public:
 	void add_money(); //dobavq pari kum balance-a si.
 
 	void changeOrderStatus(bool isFinished);
+
+	const Order& getOrder() const;
 };

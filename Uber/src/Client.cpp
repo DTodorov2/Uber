@@ -3,36 +3,34 @@
 Client::Client(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName) :
 	Person(id, username, pass, firstName, secondName) {};
 
-size_t Client::validateNum(const std::string& str, char constraintL, char constraintR) const
-{
-	std::string passengers;
-	do
-	{
-		std::cout << str;
-		std::getline(std::cin, passengers);
-		if (passengers.size() >= 2)
-		{
-			continue;
-		}
-	} while (passengers[0] < constraintL || passengers[0] > constraintR);
-	return passengers[0] - '0';
-}
+//size_t Client::validateNum(const std::string& str, char constraintL, char constraintR) const
+//{
+//	std::string passengers;
+//	do
+//	{
+//		std::cout << str;
+//		std::getline(std::cin, passengers);
+//		if (passengers.size() >= 2)
+//		{
+//			continue;
+//		}
+//	} while (passengers[0] < constraintL || passengers[0] > constraintR);
+//	return passengers[0] - '0';
+//}
 
-Order Client::makeOrder(Address& currAddress, Address& finalDest, int& numPassengers) const
+Order Client::makeOrder(size_t idOwner, size_t id, Address& currAddress, Address& finalDest, int& numPassengers)
 {
-	if (order.getPassengersNum() != 0) // trqbva da vidq kak da proverq dali imam order veche
-	{
-		std::cout << "You cannot make an order, while you have one in action!" << std::endl;
-		return order;
-	}
-	Helper::addressInput("Enter your current address name: ", "Enter your current coordinates:\ncoordX: ", currAddress, 'c');
-	Helper::addressInput("Enter the final destination: ", "Enter the final destination coordinates:\ncoordX: ", finalDest, 'c');
-	numPassengers = validateNum("Enter number of passengers (The number must be between 1 and 7): ", '1', '7');
-	return Order(getId(), currAddress, finalDest, numPassengers, getFirstName() + " " + getSecondName()); // RVO?
+	this->order = Order(idOwner, id, currAddress, finalDest, numPassengers, getFirstName() + " " + getSecondName());
+	return this->order; // RVO?
 }
 
 void Client::check_order() const
 {
+	if (order.getIdOrder() == -1)
+	{
+		std::cout << "You have not ordered yet!" << std::endl;
+		return;
+	}
 	std::cout << "Your order is ";
 	if (order.isAccepted())
 	{
@@ -65,8 +63,6 @@ void Client::pay(double amount) //pay se griji za plashtaneto na driver-a
 			return;
 		}
 		setBalance(newBalance);
-		size_t driverBalance = order.getDriver()->getBalance();
-		order.getDriver()->setBalance(driverBalance + amount);
 	}
 	else
 	{
@@ -78,7 +74,7 @@ int Client::rate() const
 {
 	std::string rating;
 	std::cout << "Your rating must be between 1 and 5!" << std::endl;
-	return validateNum("Choose your rating: ", '1', '5');
+	return Helper::validateNum("Choose your rating: ", '1', '5');
 }
 
 void Client::add_money()
