@@ -10,9 +10,10 @@ Order::Order()
 	finished = false;
 }
 
-Order::Order(size_t idPerson, const Address& startAdd, const Address& finalAdd, size_t numPass, const std::string& nameOrderPerson) : Order()
+Order::Order(size_t idOwner, size_t id, const Address& startAdd, const Address& finalAdd, size_t numPass, const std::string& nameOrderPerson) : Order()
 {
-	this->idOwner = idPerson;
+	this->idOwner = idOwner;
+	this->idOrder = id;
 	setAddress(startAdd, this->startAddress);
 	setAddress(finalAdd, this->destAddress);
 	setPassengersNum(numPass);
