@@ -29,3 +29,11 @@ const std::string& Address::getAddInfo() const
 {
 	return additionalInfo;
 }
+
+std::ostream& operator<<(std::ostream& os, const Address& add)
+{
+	os << "Your current address is: " << std::endl;
+	os << "Address name: " << add.name << std::endl;
+	os << "Coord x: " << add.point.getCoordX() << " Coord y: " << add.point.getCoordY() << std::endl;
+	return os;
+}
