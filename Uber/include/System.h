@@ -11,19 +11,20 @@ class System
 	int currentUserIndex = -1;
 
 	void validateType(std::string& type) const;
-	void validateString(const std::string& desc, std::string& str) const;
+	void validateString(const std::string& desc, std::string& str, char ch) const;
 	void validatePhoneOrCarNum(const std::string& regex, const std::string& str, const std::string& which, std::string& phoneNum) const;
-	double validateAmount() const;
 	int validateMinutesTillArrival() const;
 	size_t findFirstEmptyIndex() const;
-	void sendOrderToClosestDriver(const Order& order);
-	void showUserMessages(const std::string& type) const;
+	void sendOrderToClosestDriver(Order& order);
+	int validateOrderId() const;
+	void removeOrderFromDrivers(size_t idOrder);
+	bool isTheUsernameUnique(const std::string& username) const;
+	void deleteUserMessages(const std::string& type);
 
 public:
 	void registårUser();
-	void login(std::string& type); //vrushta int, za da moga da vzema id-to na suotevtniq potrebitel i v type zapisvam kakuv e potrebitelq\
-	ako vurne -1, to nqma takuv potrebitel
-	void logout() const; //tova nz oshte kvo da go praq
+	void login(std::string& type);
+	void logout(const std::string& type);
 	void initiatePayment();
 	void initiateCheckingMessages() const;
 	void initiateMakingOrder();
@@ -35,4 +36,7 @@ public:
 	void initiateAcceptingOrder();
 	void initiateDecliningOrder();
 	void initiateFinishingOrder();
+	void initiateShowingProfile(char ch = 'c') const;
+	void showUserMessages(const std::string& type) const;
+
 };
