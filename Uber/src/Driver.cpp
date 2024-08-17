@@ -5,11 +5,23 @@ Driver::Driver(size_t id, const std::string& username, const std::string& pass, 
 {
 	setCarNum(carNum);
 	setPhoneNum(phoneNum);
+	rating = -1;
+	busy = false;
 };
+
+void Driver::addOrder(size_t idOrder)
+{
+	orders.push_back(idOrder);
+}
+
+const Address& Driver::getAddress() const
+{
+	return address;
+}
 
 void Driver::changeAddress()
 {
-	Helper::addressInput("Enter the new destination name: ", "Enter the new coordinates : \ncoordX: ", this->address);
+	Helper::addressInput("Enter the destination name: ", "Enter the coordinates : ", this->address);
 }
 
 const std::vector<size_t>& Driver::check_messages() const
@@ -20,10 +32,6 @@ const std::vector<size_t>& Driver::check_messages() const
 void Driver::accept_order(int orderId, int minutes) // shtom go priemam kato argument, predpolagam, che sistemata shte si ima orderId-to veche\
 i nqma da ima smisul da go vrushtam ot taq funkciq
 {
-	if (orderId < 1 || orderId > orders.size())
-	{
-		throw std::invalid_argument("Invalid orderId!");
-	}
 	busy = true;
 } // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
 
@@ -34,15 +42,26 @@ void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 	orders.pop_back();
 }
 
-void Driver::finish_order(int orderId)
+void Driver::finish_order()
 {
-	if (orderId < 1 || orderId > orders.size())
-	{
-		throw std::invalid_argument("Invalid orderId!");
-	}
 	busy = false;
 	orders.pop_back(); //sled tozi red, bi trqbvalo v orders da nqma nishto i da e sus size 0
 	//pri pay se iztriva samata poruchka, sled kato se plati, shtoto vinagi sled finish_order trqbva da se plati i taka nqma da ostane visqshta pamet
+}
+
+void Driver::swapElementsInOrders(size_t ind1, size_t ind2)
+{
+	size_t indexOrder = 0;
+	size_t ordersLen = orders.size();
+	for (size_t i = 0; i < ordersLen; i++)
+	{
+		if (orders[i] == ind2)
+		{
+			indexOrder = i;
+			break;
+		}
+	}
+	std::swap(orders[0], orders[indexOrder]);
 }
 
 const std::string& Driver::getCarNum() const
@@ -55,19 +74,39 @@ const std::string& Driver::getPhoneNum() const
 	return phoneNum;
 }
 
-size_t Driver::getCapacity() const
+bool Driver::isBusy() const
 {
-	return capacity;
+	return busy;
+}
+
+void Driver::viewProfile() const
+{
+	Person::viewProfile();
+	std::cout << "Phone number: " << this->phoneNum << std::endl;
+	std::cout << "Car number: " << this->carNum << std::endl;
+	std::cout << "Rating: " << getRating() << std::endl;
+	std::cout << this->address;
 }
 
 double Driver::getRating() const
 {
+	if (rating == -1)
+	{
+		return 0;
+	}
 	return rating;
 }
 
 void Driver::setRating(int givenRating)
 {
-	rating = (rating + givenRating) / 2;
+	if (rating == -1)
+	{
+		rating = givenRating;
+	}
+	else
+	{
+		rating = (rating + givenRating) / 2;
+	}
 }
 
 void Driver::setAddress(const Address& newAdd)
@@ -93,4 +132,9 @@ void Driver::setStatus(bool isBusy)
 std::vector<size_t> Driver::getOrders() const
 {
 	return orders;
+}
+
+void Driver::removeOrder()
+{
+	orders.pop_back();
 }
