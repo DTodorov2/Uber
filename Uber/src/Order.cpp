@@ -1,28 +1,33 @@
 #include "../include/Order.h"
 
-//size_t Order::idOrder = 0;
-
 Order::Order()
 {
 	accepted = false;
 	passengersNum = 0;
 	minutesTillArrival = 0;
 	finished = false;
+	driver = nullptr;
 }
 
 Order::Order(size_t idOwner, size_t id, const Address& startAdd, const Address& finalAdd, size_t numPass, const std::string& nameOrderPerson) : Order()
 {
 	this->idOwner = idOwner;
 	this->idOrder = id;
+	this->nameOwner = nameOrderPerson;
 	setAddress(startAdd, this->startAddress);
 	setAddress(finalAdd, this->destAddress);
 	setPassengersNum(numPass);
 }
 
-//int Order::getOrderId() const
-//{
-//	return idOrder;
-//}
+void Order::setFinished(bool isFinished)
+{
+	finished = isFinished;
+}
+
+void Order::setPassengersNum(size_t passNum)
+{
+	passengersNum = passNum;
+}
 
 bool Order::isAccepted() const
 {
@@ -39,6 +44,11 @@ double Order::getDriverRating() const
 	return driver->getRating();
 }
 
+size_t Order::getIdOrder() const
+{
+	return idOrder;
+}
+
 const Address& Order::getStartAddress() const
 {
 	return startAddress;
@@ -52,6 +62,11 @@ const Address& Order::getDestAddress() const
 size_t Order::getPassengersNum() const
 {
 	return passengersNum;
+}
+
+size_t Order::getIdOwner() const
+{
+	return idOwner;
 }
 
 const std::string& Order::getNameOwner() const
@@ -84,18 +99,22 @@ void Order::setDriver(Driver* driver)
 	this->driver = driver;
 }
 
-//void Order::setIdOrder(int idOrder)
-//{
-//	this->idOrder = idOrder;
-//}
+void Order::setIdOrder(int idOrder)
+{
+	this->idOrder = idOrder;
+}
+
 void Order::setAddress(const Address& newAddress, Address& AddressToChange)
 {
 	AddressToChange = newAddress;
 }
 
-void Order::setPassengersNum(size_t passNum)
+void Order::addNumberToSet(int num)
 {
-	this->passengersNum = passNum;
+	driversPassed.insert(num);
 }
 
-//pri destruktora da namalqm idOrder s 1, ako go polzvam vuobshte
+const std::unordered_set<int>& Order::getDriversPassed() const
+{
+	return driversPassed;
+}
