@@ -1,5 +1,7 @@
 #include "../include/Point.h"
 
+Point::Point() : Point(0, 0) {};
+
 int Point::getCoordX() const
 {
 	return x;
