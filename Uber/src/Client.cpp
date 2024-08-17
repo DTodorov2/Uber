@@ -1,26 +1,18 @@
 #include "../include/Client.h"
+#include <sstream>
 
 Client::Client(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName) :
 	Person(id, username, pass, firstName, secondName) {};
 
-//size_t Client::validateNum(const std::string& str, char constraintL, char constraintR) const
-//{
-//	std::string passengers;
-//	do
-//	{
-//		std::cout << str;
-//		std::getline(std::cin, passengers);
-//		if (passengers.size() >= 2)
-//		{
-//			continue;
-//		}
-//	} while (passengers[0] < constraintL || passengers[0] > constraintR);
-//	return passengers[0] - '0';
-//}
+const Order& Client::getOrder() const
+{
+	return order;
+}
 
 Order Client::makeOrder(size_t idOwner, size_t id, Address& currAddress, Address& finalDest, int& numPassengers)
 {
-	this->order = Order(idOwner, id, currAddress, finalDest, numPassengers, getFirstName() + " " + getSecondName());
+	std::string personName = getFirstName() + " " + getSecondName();
+	this->order = Order(idOwner, id, currAddress, finalDest, numPassengers, personName);
 	return this->order; // RVO?
 }
 
@@ -50,24 +42,67 @@ void Client::check_order() const
 void Client::cancel_order()
 {
 	order = Order();
+	std::cout << "You have canceled your order successfully!" << std::endl;
 }
 
-void Client::pay(double amount) //pay se griji za plashtaneto na driver-a
+double Client::validateAmount() const
 {
+	double num;
+	while (true)
+	{
+		std::cout << "The amount must me positive number and greater than 0!" << std::endl;
+		std::string amount;
+		std::cout << "Enter amount of money: ";
+		std::getline(std::cin, amount);
+		std::stringstream ss(amount);
+		char c;
+
+		if (!(ss >> num)) {
+			continue;
+		}
+
+		if (ss >> c) {
+			continue;
+		}
+
+		if (num <= 0)
+		{
+			continue;
+		}
+		break;
+	}
+	return num;
+}
+
+bool Client::pay(double& doubleAmount) //pay se griji za plashtaneto na driver-a
+{
+	if (order.getIdOrder() == -1)
+	{
+		std::cout << "You have not ordered yet!" << std::endl;
+		return false;
+	}
+	if (order.getDriver() == nullptr)
+	{
+		std::cout << "Your order is not accepted yet!" << std::endl;
+		return false;
+	}
+	doubleAmount = validateAmount();
 	if (order.isFinished())
 	{
-		double newBalance = getBalance() - amount;
+		double newBalance = getBalance() - doubleAmount;
 		if (newBalance < 0)
 		{
 			std::cout << "You must add money to your balance first!" << std::endl;
-			return;
+			return false;
 		}
 		setBalance(newBalance);
 	}
 	else
 	{
 		std::cout << "You must wait for the driver to assure the order is finished." << std::endl;
+		return false;
 	}
+	return true;
 }
 
 int Client::rate() const
@@ -79,21 +114,17 @@ int Client::rate() const
 
 void Client::add_money()
 {
-	std::string amount;
-	std::cout << "Enter the amount of money you want to add to your balance: ";
-	std::getline(std::cin, amount);
-	try
-	{
-		size_t pos;
-		setBalance(getBalance() + std::stod(amount, &pos));
-		if (pos < amount.length())
-		{
-			throw std::invalid_argument("");
-		}
-	}
-	catch (const std::exception&)
-	{
-		std::cout << "The amount must contain only digits!" << std::endl;
-		add_money();
-	}
+	std::cout << "\nYour current balance is: " << getBalance() << std::endl;
+	std::cout << "\nEnter the amount of money you want to add to your balance: " << std::endl;;
+	double amount = validateAmount();
+	double newBalance = getBalance() + amount;
+	setBalance(newBalance);
+	std::cout << "You added money to your account successfully!" << std::endl;
+	std::cout << "\nThe new balance is: " << getBalance() << std::endl;
+	std::cout << std::endl;
+}
+
+void Client::setOrder(const Order& order)
+{
+	this->order = order;
 }
