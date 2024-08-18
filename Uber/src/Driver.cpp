@@ -29,11 +29,11 @@ const std::vector<size_t>& Driver::check_messages() const
 	return orders;
 }
 
-void Driver::accept_order(int orderId, int minutes) // shtom go priemam kato argument, predpolagam, che sistemata shte si ima orderId-to veche\
-i nqma da ima smisul da go vrushtam ot taq funkciq
-{
-	busy = true;
-} // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
+//void Driver::accept_order(int orderId, int minutes) // shtom go priemam kato argument, predpolagam, che sistemata shte si ima orderId-to veche\
+//i nqma da ima smisul da go vrushtam ot taq funkciq
+//{
+//	busy = true;
+//} // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
 
 void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 {
