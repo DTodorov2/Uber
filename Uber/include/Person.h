@@ -34,7 +34,7 @@ public:
 	size_t getId() const;
 	void addMessage(const std::string& str);
 	//virtual void saveUserToFile(std::ofstream& ofs) const = 0;
-	virtual void showProfile(std::ostream& ofs) const;
+	virtual void showProfile(std::ostream& ofs) const = 0;
 	
 	virtual ~Person() = default;
 };

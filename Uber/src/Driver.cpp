@@ -81,7 +81,10 @@ bool Driver::isBusy() const
 
 void Driver::showProfile(std::ostream& ofs) const
 {
-	Person::showProfile(ofs);
+	ofs << "\nUsername: " << getUsername() << std::endl;
+	ofs << "First name: " << getFirstName() << std::endl;
+	ofs << "Last name: " << getSecondName() << std::endl;
+	ofs << "Balance: " << getBalance() << std::endl;
 	ofs << "Phone number: " << this->phoneNum << std::endl;
 	ofs << "Car number: " << this->carNum << std::endl;
 	ofs << "Rating: " << getRating() << std::endl;

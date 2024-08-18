@@ -81,11 +81,3 @@ const std::queue<std::string>& Person::getMessages() const
 {
 	return messages;
 }
-
-void Person::showProfile(std::ostream& ofs) const
-{
-	ofs << "\nUsername: " << this->username << std::endl;
-	ofs << "First name: " << this->first_name << std::endl;
-	ofs << "Last name: " << this->last_name << std::endl;
-	ofs << "Balance: " << this->balance << std::endl;
-}

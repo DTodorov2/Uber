@@ -19,9 +19,8 @@ public:
 	int rate() const; //rate-va shofiora, koito e izpulnin poruchkata, kato pri zavurshvane se zadava vupros kum potrebitelq dali iska da dade \
 	ocenka, ako kaje da, to se vzema id-to na shofiora ot order-a i se dava ocenka, ako ne - produljava se deistvieto na programata.
 	void add_money(); //dobavq pari kum balance-a si.
-	void saveUserToFile(std::ofstream& ofs) const;
 
-	///void changeOrderStatus(bool isFinished);
+	void showProfile(std::ostream& ofs) const override;
 	void setOrder(const Order& order);
 
 	const Order& getOrder() const;
