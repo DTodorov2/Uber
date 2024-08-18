@@ -150,13 +150,21 @@ void System::registårUser()
 	validateString("first name", firstName, 'n');
 	validateString("second name", secondName, 'n');
 
-	if (strcmp(type.c_str(), "client") == 0)
+	if (type == "client")
 	{
 		clients.push_back(Client(clients.size(), username, pass, firstName, secondName));
+		std::string fileName = "clients/" + std::to_string((clients.size() - 1));
+		std::ofstream ofs(fileName.c_str(), std::ios::out);
+		if (!ofs.is_open())
+		{
+			throw std::exception("Could not open a file!");
+		}
+		clients[clients.size() - 1].showProfile(ofs);
+		ofs.close();
 		std::cout << "User successfully registered!" << std::endl;
 		return;
 	}
-	else if (strcmp(type.c_str(), "driver") == 0)
+	else if (type == "driver")
 	{
 		std::string phoneNum, carNum;
 
@@ -167,6 +175,13 @@ void System::registårUser()
 		std::cout << "User successfully registered!" << std::endl;
 		std::cout << "You must enter your current address: " << std::endl;
 		drivers[drivers.size() - 1].changeAddress();
+		std::string fileName = "drivers/" + std::to_string((drivers.size() - 1));
+		std::ofstream ofs(fileName.c_str(), std::ios::out); if (!ofs.is_open())
+		{
+			throw std::exception("Could not open a file!");
+		}
+		drivers[drivers.size() - 1].showProfile(ofs);
+		ofs.close();
 	}
 }
 
@@ -207,6 +222,30 @@ void System::login(std::string& type)
 void System::logout(const std::string& type)
 {
 	//trqbvda li da napravq oshte neshto -> da zapisha vuv faila za suotvetniq user promenite
+	std::string fileName;
+	if (type == "client")
+	{
+		fileName = "clients/" + std::to_string(clients[currentUserIndex].getId());
+		std::ofstream newFile(fileName.c_str(), std::ios::out | std::ios::trunc);
+		if (!newFile.is_open())
+		{
+			throw std::exception("Error while opening file for writing");
+		}
+		clients[currentUserIndex].showProfile(newFile);
+		newFile.close();
+	}
+	else
+	{
+		fileName = "drivers/" + std::to_string(drivers[currentUserIndex].getId());
+		std::ofstream newFile(fileName.c_str(), std::ios::out | std::ios::trunc);
+		if (!newFile.is_open())
+		{
+			throw std::exception("Error while opening file for writing");
+		}
+		drivers[currentUserIndex].showProfile(newFile);
+		newFile.close();
+	}
+	
 	deleteUserMessages(type);
 	currentUserIndex = -1;
 }
@@ -526,10 +565,10 @@ void System::initiateShowingProfile(char ch) const
 {
 	if (ch == 'c')
 	{
-		clients[currentUserIndex].viewProfile();
+		clients[currentUserIndex].showProfile(std::cout);
 	}
 	else
 	{
-		drivers[currentUserIndex].viewProfile();
+		drivers[currentUserIndex].showProfile(std::cout);
 	}
 }

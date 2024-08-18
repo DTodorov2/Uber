@@ -79,13 +79,13 @@ bool Driver::isBusy() const
 	return busy;
 }
 
-void Driver::viewProfile() const
+void Driver::showProfile(std::ostream& ofs) const
 {
-	Person::viewProfile();
-	std::cout << "Phone number: " << this->phoneNum << std::endl;
-	std::cout << "Car number: " << this->carNum << std::endl;
-	std::cout << "Rating: " << getRating() << std::endl;
-	std::cout << this->address;
+	Person::showProfile(ofs);
+	ofs << "Phone number: " << this->phoneNum << std::endl;
+	ofs << "Car number: " << this->carNum << std::endl;
+	ofs << "Rating: " << getRating() << std::endl;
+	ofs << this->address;
 }
 
 double Driver::getRating() const

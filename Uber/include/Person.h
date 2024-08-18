@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <fstream>
 #include "Helper.h"
 
 class Person {
@@ -32,7 +33,8 @@ public:
 	size_t getBalance() const;
 	size_t getId() const;
 	void addMessage(const std::string& str);
-	virtual void viewProfile() const;
+	//virtual void saveUserToFile(std::ofstream& ofs) const = 0;
+	virtual void showProfile(std::ostream& ofs) const;
 	
 	virtual ~Person() = default;
 };

@@ -128,3 +128,8 @@ void Client::setOrder(const Order& order)
 {
 	this->order = order;
 }
+
+void Client::saveUserToFile(std::ofstream& ofs) const
+{
+	
+}
