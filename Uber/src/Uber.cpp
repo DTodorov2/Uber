@@ -98,7 +98,7 @@ void executeOption(System& sys, int key, std::string& type)
 			break;
 		case 3:
 			std::cout << "Thank you for using our platform!" << std::endl;
-			break;
+			exit(0);
 		default:
 			break;
 		}

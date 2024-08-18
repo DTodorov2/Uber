@@ -137,11 +137,14 @@
     <ClInclude Include="include\System.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Address.cpp" />
     <ClCompile Include="src\Client.cpp" />
     <ClCompile Include="src\Driver.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\Order.cpp" />
     <ClCompile Include="src\Person.cpp" />
+    <ClCompile Include="src\Point.cpp" />
+    <ClCompile Include="src\System.cpp" />
     <ClCompile Include="src\Uber.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
