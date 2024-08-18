@@ -76,6 +76,15 @@ void System::validateString(const std::string& desc, std::string& str, char ch =
 			std::getline(std::cin, str);
 		}
 	}
+	else
+	{
+		while (str == "")
+		{
+			std::cout << "The number must be at least 1 character!" << std::endl;
+			std::cout << "Enter " << desc << ": ";
+			std::getline(std::cin, str);
+		}
+	}
 }
 
 void System::validatePhoneOrCarNum(const std::string& regex, const std::string& str, const std::string& which, std::string& phoneNum) const
@@ -91,52 +100,40 @@ void System::validatePhoneOrCarNum(const std::string& regex, const std::string& 
 
 int System::validateMinutesTillArrival() const
 {
+	std::regex min_regex("^[1-9][0-9]*$");
 	std::string mins;
 	std::cout << "Enter how many minutes until you arrive to the destination: ";
 	std::getline(std::cin, mins);
-	size_t pos;
-	int num;
-	num = std::stoi(mins, &pos);
-
-	while (pos != mins.length())
+	while (!std::regex_match(mins, min_regex))
 	{
-		std::cout << "The number must contain only digits!" << std::endl;
-		std::cout << "Enter how many minutes until you arrive to the destination: ";
+		std::cout << "The number must be greater than 0 and should not start with 0!" << std::endl;
+		std::cout << "Enter minutes: ";
 		std::getline(std::cin, mins);
-
-		try
-		{
-			num = std::stoi(mins, &pos);
-		}
-		catch (const std::exception&)
-		{
-			continue;
-		}
 	}
-	return num;
+	return std::stoi(mins);
 }
 
 void System::sendOrderToClosestDriver(Order& order)
 {
 	size_t driversLen = drivers.size();
-	size_t closestDriverId = 0;
+	int closestDriverId = -1;
 	double minDistance = DBL_MAX;
-	if (order.getDriversPassed().size() == driversLen)
-	{
-		clients[order.getIdOwner()].addMessage("Your order has been declined!");
-		clients[order.getIdOwner()].setOrder(Order());
-		order.setIdOrder(-1);
-		return;
-	}
 	for (size_t i = 0; i < driversLen; i++)
 	{
 		double distanceNextDriver = order.getStartAddress().getPoint().getDist(drivers[i].getAddress().getPoint());
-		if (distanceNextDriver < minDistance && order.getDriversPassed().find(i) == order.getDriversPassed().end())
+		if (distanceNextDriver < minDistance && order.getDriversPassed().find(i) == order.getDriversPassed().end() && !drivers[i].isBusy())
 		{
 			minDistance = distanceNextDriver;
 			closestDriverId = i;
 			order.addNumberToSet(i);
 		}
+	}
+	if (closestDriverId == -1)
+	{
+		clients[order.getIdOwner()].addMessage("Your order has been declined!");
+		clients[order.getIdOwner()].setOrder(Order());
+		order.setIdOrder(-1);
+		return;
 	}
 	drivers[closestDriverId].addOrder(order.getIdOrder());
 }
@@ -165,13 +162,11 @@ void System::registårUser()
 
 		validatePhoneOrCarNum("^(087|088|089)[0-9]{7}$", "The phone number must be 10 digits and must start with 089/088/087!", "phone", phoneNum);
 		validatePhoneOrCarNum("^[A-Z] [0-9]{4} [A-Z]{2}$", "The car number must follow the given pattern: A 0000 AA!", "car", carNum);
+		
 		drivers.push_back(Driver(drivers.size(), username, pass, firstName, secondName, carNum, phoneNum));
 		std::cout << "User successfully registered!" << std::endl;
-		//if (drivers[drivers.size() - 1].getAddress().getName() == "")
-		//{
-			std::cout << "You must enter your current address: " << std::endl;
-			drivers[drivers.size() - 1].changeAddress();
-		//}
+		std::cout << "You must enter your current address: " << std::endl;
+		drivers[drivers.size() - 1].changeAddress();
 	}
 }
 
@@ -179,7 +174,7 @@ void System::login(std::string& type)
 {
 	std::string username, pass;
 
-	validateString("username", username, 'u');
+	validateString("username", username);
 	validateString("password", pass, 'p');
 
 	size_t clientsCount = clients.size();
@@ -296,6 +291,7 @@ void System::showUserMessages(const std::string& type) const
 	for (size_t i = 0; i < lenMessUser; i++)
 	{
 		std::cout << queueMess.front() << std::endl;
+		queueMess.pop();
 	}
 }
 
@@ -432,7 +428,7 @@ int System::validateOrderId() const
 			upperLimit = currOrderId;
 		}
 	}
-	if (num < 0 || num > upperLimit /*|| orders[num].getIdOrder() == -1*/) // nz za kvo mi e poslednata proverka
+	if (num < 0 || num > upperLimit || orders[num].getIdOrder() == -1) // nz za kvo mi e poslednata proverka
 	{
 		num = -1;
 	}
@@ -468,7 +464,6 @@ void System::initiateAcceptingOrder()
 	for (size_t i = 1; i < ordersDriverLen; i++)
 	{
 		sendOrderToClosestDriver(orders[drivers[currentUserIndex].getOrders()[i]]);
-		clients[orders[i].getIdOwner()].setOrder(Order());
 		drivers[currentUserIndex].removeOrder();
 	}
 	std::cout << "You have accepted order with id " << idOrder << " successfully!" << std::endl;
@@ -483,7 +478,7 @@ void System::initiateDecliningOrder()
 		return;
 	}
 	if (orders[idOrder].getDriver() == &drivers[currentUserIndex]) //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
-																					da q ostavim v purvonachalno sustoqnie
+																							da q ostavim v purvonachalno sustoqnie
 	{
 		orders[idOrder].setAccepted(false);
 		orders[idOrder].setDriver(nullptr);
@@ -500,27 +495,31 @@ void System::initiateDecliningOrder()
 
 void System::initiateFinishingOrder()
 {
-	int idOrder = 0;
+	size_t orderNum = 0;
 	if (drivers[currentUserIndex].getOrders().size() == 0)
 	{
-		idOrder = -1;
+		orderNum = -1;
 	}
-	if (idOrder == -1 || orders[drivers[currentUserIndex].getOrders()[0]].getDriver() != &drivers[currentUserIndex])
+	if (orderNum == -1 || orders[orderNum].getDriver() != &drivers[currentUserIndex])
 	{
-		std::cout << "No such order!" << std::endl;
+		std::cout << "No accepted order!" << std::endl;
 		return;
 	}
+
+	orderNum = drivers[currentUserIndex].getOrders()[0];
+	size_t idOwnerOfOrder = orders[orderNum].getIdOwner();
+
+
 	drivers[currentUserIndex].finish_order();
-	drivers[currentUserIndex].setAddress(orders[idOrder].getDestAddress());
+	drivers[currentUserIndex].setAddress(orders[orderNum].getDestAddress());
 
+	orders[orderNum].setFinished(true);
 
-	orders[idOrder].setFinished(true);
+	clients[idOwnerOfOrder].addMessage("The order is finished!");
+	clients[idOwnerOfOrder].setOrder(orders[orderNum]);
 
-	clients[orders[idOrder].getIdOwner()].addMessage("The order is finished!");
-	clients[orders[idOrder].getIdOwner()].setOrder(orders[idOrder]);
-
-	orders[idOrder].setIdOrder(-1);
-	std::cout << "You have checked order with id " << idOrder << " as finished successfully!" << std::endl;
+	orders[orderNum].setIdOrder(-1);
+	std::cout << "You have checked order with id " << orderNum << " as finished successfully!" << std::endl;
 }
 
 void System::initiateShowingProfile(char ch) const
