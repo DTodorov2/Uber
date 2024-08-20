@@ -30,6 +30,11 @@ const std::string& Address::getAddInfo() const
 	return additionalInfo;
 }
 
+void Address::writeAddressIntoFile(std::ofstream& ofs) const
+{
+	ofs << name << "," << point.getCoordX() << "," << point.getCoordY();
+}
+
 std::ostream& operator<<(std::ostream& os, const Address& add)
 {
 	os << "Your current address is: " << std::endl;

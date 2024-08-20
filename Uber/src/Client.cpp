@@ -129,10 +129,3 @@ void Client::setOrder(const Order& order)
 	this->order = order;
 }
 
-void Client::showProfile(std::ostream& ofs) const
-{
-	ofs << "\nUsername: " << getUsername() << std::endl;
-	ofs << "First name: " << getFirstName() << std::endl;
-	ofs << "Last name: " << getSecondName() << std::endl;
-	ofs << "Balance: " << getBalance() << std::endl;
-}

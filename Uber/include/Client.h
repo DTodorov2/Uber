@@ -20,7 +20,6 @@ public:
 	ocenka, ako kaje da, to se vzema id-to na shofiora ot order-a i se dava ocenka, ako ne - produljava se deistvieto na programata.
 	void add_money(); //dobavq pari kum balance-a si.
 
-	void showProfile(std::ostream& ofs) const override;
 	void setOrder(const Order& order);
 
 	const Order& getOrder() const;

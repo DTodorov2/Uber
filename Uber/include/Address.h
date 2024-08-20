@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "Point.h"
 
 class Address
@@ -13,6 +14,7 @@ public:
 	void setName(const std::string& name);
 	void setPoint(int coodX, int coordY);
 	void setAdditionalInfo(const std::string& str);
+	void writeAddressIntoFile(std::ofstream& ofs) const;
 
 	const std::string& getName() const;
 	const Point& getPoint() const;

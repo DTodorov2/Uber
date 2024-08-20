@@ -81,3 +81,16 @@ const std::queue<std::string>& Person::getMessages() const
 {
 	return messages;
 }
+
+void Person::writePersonIntoFile(std::ofstream& ofs) const
+{
+	ofs << getUsername() << "," << getFirstName() << "," << getSecondName() << "," << getBalance();
+}
+
+void Person::showProfile() const
+{
+	std::cout << "\nUsername: " << getUsername() << std::endl;
+	std::cout << "First name: " << getFirstName() << std::endl;
+	std::cout << "Last name: " << getSecondName() << std::endl;
+	std::cout << "Balance: " << getBalance() << std::endl;
+}

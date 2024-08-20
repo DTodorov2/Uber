@@ -30,8 +30,8 @@ public:
 	std::vector<size_t> getOrders() const;
 	const Address& getAddress() const;
 	bool isBusy() const;
-	void showProfile(std::ostream& ofs) const override;
-	//void saveUserToFile(std::ofstream& ofs) const override;
+	void showProfile() const override;
+	void writePersonIntoFile(std::ofstream& ofs) const override;
 	
 	void setStatus(bool isBusy);
 	void setRating(int rating);

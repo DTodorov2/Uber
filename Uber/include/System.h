@@ -39,5 +39,5 @@ public:
 	void initiateFinishingOrder();
 	void initiateShowingProfile(char ch = 'c') const;
 	void showUserMessages(const std::string& type) const;
-
+	void readInfoFromFile(const std::string& type);
 };

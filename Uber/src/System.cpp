@@ -219,6 +219,33 @@ void System::login(std::string& type)
 	return;
 }
 
+void System::readInfoFromFile(const std::string& type)
+{
+	std::string fileName;
+	if (type == "client")
+	{
+		fileName = "clients/" + std::to_string(clients[currentUserIndex].getId());
+		std::ifstream newFile(fileName.c_str(), std::ios::in);
+		if (!newFile.is_open())
+		{
+			throw std::exception("Error while opening file for reading.");
+		}
+		
+		newFile.close();
+	}
+	else
+	{
+		fileName = "drivers/" + std::to_string(drivers[currentUserIndex].getId());
+		std::ifstream newFile(fileName.c_str(), std::ios::in);
+		if (!newFile.is_open())
+		{
+			throw std::exception("Error while opening file for reading.");
+		}
+		
+		newFile.close();
+	}
+}
+
 void System::writeInfoIntoFile(const std::string& type) const
 {
 	std::string fileName;
@@ -230,7 +257,8 @@ void System::writeInfoIntoFile(const std::string& type) const
 		{
 			throw std::exception("Error while opening file for writing.");
 		}
-		clients[currentUserIndex].showProfile(newFile);
+		clients[currentUserIndex].writePersonIntoFile(newFile);
+		newFile << std::endl;
 		newFile.close();
 	}
 	else
@@ -241,7 +269,7 @@ void System::writeInfoIntoFile(const std::string& type) const
 		{
 			throw std::exception("Error while opening file for writing.");
 		}
-		drivers[currentUserIndex].showProfile(newFile);
+		drivers[currentUserIndex].writePersonIntoFile(newFile);
 		newFile.close();
 	}
 }
@@ -575,10 +603,10 @@ void System::initiateShowingProfile(char ch) const
 {
 	if (ch == 'c')
 	{
-		clients[currentUserIndex].showProfile(std::cout);
+		clients[currentUserIndex].showProfile();
 	}
 	else
 	{
-		drivers[currentUserIndex].showProfile(std::cout);
+		drivers[currentUserIndex].showProfile();
 	}
 }

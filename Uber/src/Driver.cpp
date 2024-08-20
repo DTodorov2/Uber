@@ -79,16 +79,21 @@ bool Driver::isBusy() const
 	return busy;
 }
 
-void Driver::showProfile(std::ostream& ofs) const
+void Driver::writePersonIntoFile(std::ofstream& ofs) const
 {
-	ofs << "\nUsername: " << getUsername() << std::endl;
-	ofs << "First name: " << getFirstName() << std::endl;
-	ofs << "Last name: " << getSecondName() << std::endl;
-	ofs << "Balance: " << getBalance() << std::endl;
-	ofs << "Phone number: " << this->phoneNum << std::endl;
-	ofs << "Car number: " << this->carNum << std::endl;
-	ofs << "Rating: " << getRating() << std::endl;
-	ofs << this->address;
+	Person::writePersonIntoFile(ofs);
+	ofs << this->phoneNum << "," << this->carNum << "," << getRating();
+	address.writeAddressIntoFile(ofs);
+	ofs << std::endl;
+}
+
+void Driver::showProfile() const
+{
+	Person::showProfile();
+	std::cout << "Phone number: " << this->phoneNum << std::endl;
+	std::cout << "Car number: " << this->carNum << std::endl;
+	std::cout << "Rating: " << getRating() << std::endl;
+	std::cout << this->address;
 }
 
 double Driver::getRating() const

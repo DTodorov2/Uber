@@ -29,12 +29,12 @@ public:
 	const std::string& getPassword() const;
 	const std::string& getFirstName() const;
 	const std::string& getSecondName() const;
-	const std::queue<std::string>& getMessages() const; //tuka moje da trqbva i std::string da e const
+	const std::queue<std::string>& getMessages() const;
 	size_t getBalance() const;
 	size_t getId() const;
 	void addMessage(const std::string& str);
-	//virtual void saveUserToFile(std::ofstream& ofs) const = 0;
-	virtual void showProfile(std::ostream& ofs) const = 0;
+	virtual void showProfile() const;
+	virtual void writePersonIntoFile(std::ofstream& ofs) const;
 	
-	virtual ~Person() = default;
+	virtual ~Person() = 0;
 };
