@@ -20,6 +20,7 @@ class System
 	void removeOrderFromDrivers(size_t idOrder);
 	bool isTheUsernameUnique(const std::string& username) const;
 	void deleteUserMessages(const std::string& type);
+	void writeInfoIntoFile(const std::string& type) const;
 
 public:
 	void registårUser();
