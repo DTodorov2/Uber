@@ -36,11 +36,13 @@ public:
 
 	void setAccepted(bool isAccepted);
 	void setFinished(bool isFinished);
-	void setMinutes(int minutes);
+	void setMinutes(size_t minutes);
 	void setDriver(Driver* driver);
 	void setAddress(const Address& newAddress, Address& AddressToChange);
 	void setPassengersNum(size_t passNum);
 	void setIdOrder(int id);
 
 	void addNumberToSet(int num);
+	void changeOrderStatusToDeleted();
+	void changeOrderStatusToAccepted(Driver* driver, size_t minutes);
 };

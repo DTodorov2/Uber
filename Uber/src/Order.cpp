@@ -89,7 +89,7 @@ void Order::setAccepted(bool isAccepted)
 	accepted = isAccepted;
 }
 
-void Order::setMinutes(int minutes)
+void Order::setMinutes(size_t minutes)
 {
 	minutesTillArrival = minutes;
 }
@@ -117,4 +117,18 @@ void Order::addNumberToSet(int num)
 const std::unordered_set<int>& Order::getDriversPassed() const
 {
 	return driversPassed;
+}
+
+void Order::changeOrderStatusToDeleted()
+{
+	setAccepted(false);
+	setDriver(nullptr);
+	setMinutes(0);
+}
+
+void Order::changeOrderStatusToAccepted(Driver* driver, size_t minutes)
+{
+	setAccepted(true);
+	setDriver(driver);
+	setMinutes(minutes);
 }
