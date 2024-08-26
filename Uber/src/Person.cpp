@@ -1,5 +1,7 @@
 #include "../include/Person.h"
 
+Person::~Person() = default;
+
 Person::Person(size_t id, const std::string& username, const std::string& password, const std::string& first_name, const std::string& last_name)
 {
 	setFirstName(first_name);
@@ -20,6 +22,11 @@ void Person::setFirstName(const std::string& firstName)
 void Person::setLastName(const std::string& lastName)
 {
 	last_name = lastName;
+}
+
+void Person::setId(size_t id)
+{
+	this->id = id;
 }
 
 void Person::setPassword(const std::string& newPass)
@@ -84,7 +91,23 @@ const std::queue<std::string>& Person::getMessages() const
 
 void Person::writePersonIntoFile(std::ofstream& ofs) const
 {
-	ofs << getUsername() << "," << getFirstName() << "," << getSecondName() << "," << getBalance();
+	ofs << getUsername() << "," << getPassword() << "," << getFirstName() << "," << getSecondName() << "," << getBalance();
+}
+
+void Person::readPersonFromFile(std::stringstream& ss)
+{
+	
+	std::string currInfo;
+	std::getline(ss, currInfo, ',');
+	this->username = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->password = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->first_name = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->last_name = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->balance = std::stoull(currInfo);
 }
 
 void Person::showProfile() const

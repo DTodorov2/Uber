@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include <fstream>
+#include <sstream>
 #include "Helper.h"
 
 class Person {
@@ -24,6 +25,7 @@ public:
 	void setLastName(const std::string& newLast);
 	void setBalance(double amount);
 	void setMessages(const std::queue<std::string>& mess);
+	void setId(size_t id);
 	
 	const std::string& getUsername() const;
 	const std::string& getPassword() const;
@@ -35,6 +37,7 @@ public:
 	void addMessage(const std::string& str);
 	virtual void showProfile() const;
 	virtual void writePersonIntoFile(std::ofstream& ofs) const;
+	virtual void readPersonFromFile(std::stringstream& ss);
 	
 	virtual ~Person() = 0;
 };
