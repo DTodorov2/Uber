@@ -23,5 +23,5 @@ public:
 	void setOrder(const Order& order);
 
 	const Order& getOrder() const;
-
+	~Client() = default;
 };
