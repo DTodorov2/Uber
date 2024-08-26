@@ -98,6 +98,7 @@ void executeOption(System& sys, int key, std::string& type)
 			break;
 		case 3:
 			std::cout << "Thank you for using our platform!" << std::endl;
+			sys.writeInfoIntoFile();
 			exit(0);
 		default:
 			break;
@@ -111,6 +112,7 @@ void executeOption(System& sys, int key, std::string& type)
 int runProgram()
 {
 	System sys;
+	sys.readInfoFromFile();
 	std::string type;
 	while (type == "")
 	{
