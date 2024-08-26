@@ -79,12 +79,28 @@ bool Driver::isBusy() const
 	return busy;
 }
 
+void Driver::readPersonFromFile(std::stringstream& ss)
+{
+	Person::readPersonFromFile(ss);
+	std::string currInfo, coordY;
+	std::getline(ss, currInfo, ',');
+	this->phoneNum = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->carNum = currInfo;
+	std::getline(ss, currInfo, ',');
+	this->rating = std::stod(currInfo);
+	std::getline(ss, currInfo, ',');
+	this->address.setName(currInfo);
+	std::getline(ss, currInfo, ',');
+	std::getline(ss, coordY, ',');
+	this->address.setPoint(std::stoi(currInfo), std::stoi(coordY));
+}
+
 void Driver::writePersonIntoFile(std::ofstream& ofs) const
 {
 	Person::writePersonIntoFile(ofs);
 	ofs << this->phoneNum << "," << this->carNum << "," << getRating();
 	address.writeAddressIntoFile(ofs);
-	ofs << std::endl;
 }
 
 void Driver::showProfile() const

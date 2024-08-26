@@ -12,6 +12,7 @@ class Driver : public Person
 	Address address;	
 
 public:
+	Driver() = default;
 	Driver(size_t id, const std::string& username, const std::string& pass, const std::string& firstName, const std::string& secondName, const std::string& carNum, const std::string& phoneNum);
 	
 	void changeAddress(); //promenq tekushtiq address na shofiora, kato pita za ime na adresa, i koordinati.
@@ -32,10 +33,13 @@ public:
 	bool isBusy() const;
 	void showProfile() const override;
 	void writePersonIntoFile(std::ofstream& ofs) const override;
+	void readPersonFromFile(std::stringstream& ss) override;
 	
 	void setStatus(bool isBusy);
 	void setRating(int rating);
 	void setAddress(const Address& newAdd);
 	void setPhoneNum(const std::string& newPhoneNum);
 	void setCarNum(const std::string& newCarNum);
+
+	~Driver() = default;
 };
