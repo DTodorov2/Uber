@@ -9,27 +9,26 @@ void System::validateType(std::string& type) const
 		std::getline(std::cin, type);
 	}
 }
-
-bool System::isTheUsernameUnique(const std::string& username) const
+template <typename T>
+bool System::isTheUsernameUniqueInCollection(const std::string& username, const std::vector<T>& collection) const
 {
-	size_t driversLen = drivers.size();
-	for (size_t i = 0; i < driversLen; i++)
+	size_t len = collection.size();
+	for (size_t i = 0; i < len; i++)
 	{
-		if (drivers[i].getUsername() == username.c_str())
+		if (collection[i].getUsername() == username.c_str())
 		{
 			std::cout << "This username is already taken!" << std::endl;
 			return false;
 		}
 	}
+	return true;
+}
 
-	size_t clientLen = clients.size();
-	for (size_t i = 0; i < clientLen; i++)
+bool System::doesUsernameExist(const std::string& username) const
+{
+	if (!isTheUsernameUniqueInCollection(username, clients) || !isTheUsernameUniqueInCollection(username, drivers))
 	{
-		if (clients[i].getUsername() == username)
-		{
-			std::cout << "This username is already taken!" << std::endl;
-			return false;
-		}
+		return false;
 	}
 	return true;
 }
@@ -49,7 +48,7 @@ void System::validateString(const std::string& desc, std::string& str, char ch =
 				std::cout << "Enter " << desc << ": ";
 				std::getline(std::cin, str);
 			}
-			else if (!isTheUsernameUnique(str))
+			else if (!doesUsernameExist(str))
 			{
 				std::cout << "Enter " << desc << ": ";
 				std::getline(std::cin, str);
@@ -98,7 +97,7 @@ void System::validatePhoneOrCarNum(const std::string& regex, const std::string& 
 	} while (!std::regex_match(phoneNum, reg_exp));
 }
 
-int System::validateMinutesTillArrival() const
+size_t System::validateMinutesTillArrival() const
 {
 	std::regex min_regex("^[1-9][0-9]*$");
 	std::string mins;
@@ -110,7 +109,7 @@ int System::validateMinutesTillArrival() const
 		std::cout << "Enter minutes: ";
 		std::getline(std::cin, mins);
 	}
-	return std::stoi(mins);
+	return std::stoull(mins);
 }
 
 void System::sendOrderToClosestDriver(Order& order)
@@ -153,14 +152,6 @@ void System::registårUser()
 	if (type == "client")
 	{
 		clients.push_back(Client(clients.size(), username, pass, firstName, secondName));
-		/*std::string fileName = "clients/" + std::to_string((clients.size() - 1));
-		std::ofstream ofs(fileName.c_str(), std::ios::out);
-		if (!ofs.is_open())
-		{
-			throw std::exception("Could not open a file!");
-		}
-		clients[clients.size() - 1].showProfile(ofs);
-		ofs.close();*/
 		std::cout << "User successfully registered!" << std::endl;
 		return;
 	}
@@ -170,19 +161,28 @@ void System::registårUser()
 
 		validatePhoneOrCarNum("^(087|088|089)[0-9]{7}$", "The phone number must be 10 digits and must start with 089/088/087!", "phone", phoneNum);
 		validatePhoneOrCarNum("^[A-Z] [0-9]{4} [A-Z]{2}$", "The car number must follow the given pattern: A 0000 AA!", "car", carNum);
-		
+
 		drivers.push_back(Driver(drivers.size(), username, pass, firstName, secondName, carNum, phoneNum));
 		std::cout << "User successfully registered!" << std::endl;
 		std::cout << "You must enter your current address: " << std::endl;
 		drivers[drivers.size() - 1].changeAddress();
-		/*std::string fileName = "drivers/" + std::to_string((drivers.size() - 1));
-		std::ofstream ofs(fileName.c_str(), std::ios::out); if (!ofs.is_open())
-		{
-			throw std::exception("Could not open a file!");
-		}
-		drivers[drivers.size() - 1].showProfile(ofs);
-		ofs.close();*/
 	}
+}
+
+template <typename T>
+bool System::doesUserExist(const std::vector<T>& collection, const std::string& username, const std::string& pass)
+{
+	size_t len = collection.size();
+	for (size_t i = 0; i < len; i++)
+	{
+		if (collection[i].getUsername() == username && collection[i].getPassword() == pass)
+		{
+			currentUserIndex = i;
+			std::cout << "User logged successfully!" << std::endl;
+			return true;
+		}
+	}
+	return false;
 }
 
 void System::login(std::string& type)
@@ -192,98 +192,79 @@ void System::login(std::string& type)
 	validateString("username", username);
 	validateString("password", pass, 'p');
 
-	size_t clientsCount = clients.size();
-	for (size_t i = 0; i < clientsCount; i++)
+	if (doesUserExist(clients, username, pass))
 	{
-		if (clients[i].getUsername() == username && clients[i].getPassword() == pass)
-		{
-			type = "client";
-			currentUserIndex = i;
-			std::cout << "User logged successfully!" << std::endl;
-			return;
-		}
+		type = "client";
 	}
-
-	size_t driverCount = drivers.size();
-	for (size_t i = 0; i < driverCount; i++)
+	else if (doesUserExist(drivers, username, pass))
 	{
-		if (drivers[i].getUsername() == username && drivers[i].getPassword() == pass)
-		{
-			type = "driver";
-			currentUserIndex = i;
-			std::cout << "User logged successfully!" << std::endl;
-			return;
-		}
-	}
-	std::cout << "Wrong username or password!" << std::endl;
-	return;
-}
-
-void System::readInfoFromFile(const std::string& type)
-{
-	std::string fileName;
-	if (type == "client")
-	{
-		fileName = "clients/" + std::to_string(clients[currentUserIndex].getId());
-		std::ifstream newFile(fileName.c_str(), std::ios::in);
-		if (!newFile.is_open())
-		{
-			throw std::exception("Error while opening file for reading.");
-		}
-		
-		newFile.close();
+		type = "driver";
 	}
 	else
 	{
-		fileName = "drivers/" + std::to_string(drivers[currentUserIndex].getId());
-		std::ifstream newFile(fileName.c_str(), std::ios::in);
-		if (!newFile.is_open())
-		{
-			throw std::exception("Error while opening file for reading.");
-		}
-		
-		newFile.close();
+		std::cout << "Wrong username or password!" << std::endl;
 	}
 }
 
-void System::writeInfoIntoFile(const std::string& type) const
+template <typename T>
+void System::readInfoFromCurrentCollectionFile(const std::string& file, std::vector<T>& collection)
 {
-	std::string fileName;
-	if (type == "client")
+	std::ifstream readCollectionFile(file, std::ios::in);
+	if (!readCollectionFile.is_open())
 	{
-		fileName = "clients/" + std::to_string(clients[currentUserIndex].getId());
-		std::ofstream newFile(fileName.c_str(), std::ios::out | std::ios::trunc);
-		if (!newFile.is_open())
-		{
-			throw std::exception("Error while opening file for writing.");
-		}
-		clients[currentUserIndex].writePersonIntoFile(newFile);
+		std::cout << "No users in the system yet!" << std::endl;
+		return;
+	}
+
+	std::string currRow;
+	std::getline(readCollectionFile, currRow);
+	std::stringstream ss(currRow);
+	size_t counter = 0;
+	while (!readCollectionFile.eof())
+	{
+		T newEntity;
+		newEntity.readPersonFromFile(ss);
+		newEntity.setId(counter);
+		collection.push_back(newEntity);
+		counter++;
+		std::getline(readCollectionFile, currRow);
+		std::stringstream ss(currRow);
+	}
+	readCollectionFile.close();
+}
+
+void System::readInfoFromFile()
+{
+	readInfoFromCurrentCollectionFile("clients", clients);
+	readInfoFromCurrentCollectionFile("drivers", drivers);
+}
+
+template <typename T>
+void System::writeUsersFromCurrentCollectionIntoFile(const std::string& fileName, const std::vector<T>& collection) const
+{
+	std::ofstream newFile(fileName, std::ios::out | std::ios::trunc);
+	if (!newFile.is_open())
+	{
+		throw std::exception("Error while opening file for writing.");
+	}
+	size_t len = collection.size();
+	for (size_t i = 0; i < len; i++)
+	{
+		collection[i].writePersonIntoFile(newFile);
 		newFile << std::endl;
-		newFile.close();
 	}
-	else
-	{
-		fileName = "drivers/" + std::to_string(drivers[currentUserIndex].getId());
-		std::ofstream newFile(fileName.c_str(), std::ios::out | std::ios::trunc);
-		if (!newFile.is_open())
-		{
-			throw std::exception("Error while opening file for writing.");
-		}
-		drivers[currentUserIndex].writePersonIntoFile(newFile);
-		newFile.close();
-	}
+	newFile.close();
+}
+
+void System::writeInfoIntoFile() const
+{
+	writeUsersFromCurrentCollectionIntoFile("clients", clients);
+	writeUsersFromCurrentCollectionIntoFile("drivers", drivers);
 }
 
 void System::logout(const std::string& type)
 {
-	try
-	{
-		writeInfoIntoFile(type);
-	}
-	catch (const std::exception& exe)
-	{
-		std::cout << exe.what() << " Could not write information into file!" << std::endl;
-	}
+	//nqma da zapisvam infto tuka, shtoto pri exit napravo shte zapisvam vsichko vuv faila.
 	deleteUserMessages(type);
 	currentUserIndex = -1;
 }
@@ -505,7 +486,7 @@ int System::validateOrderId() const
 			upperLimit = currOrderId;
 		}
 	}
-	if (num < 0 || num > upperLimit || orders[num].getIdOrder() == -1) // nz za kvo mi e poslednata proverka
+	if (num < 0 || num > upperLimit || orders[num].getIdOrder() == -1) // nz za kvo mi e poslednata proverka -> za da proverq dali poruchkata vse oshte sushtestvuva
 	{
 		num = -1;
 	}
@@ -525,11 +506,9 @@ void System::initiateAcceptingOrder()
 		std::cout << "No such order!" << std::endl;
 		return;
 	}
-	int minutes = validateMinutesTillArrival();
+	size_t minutes = validateMinutesTillArrival();
 
-	orders[idOrder].setAccepted(true);
-	orders[idOrder].setDriver(&drivers[currentUserIndex]);
-	orders[idOrder].setMinutes(minutes);
+	orders[idOrder].changeOrderStatusToAccepted(&drivers[currentUserIndex], minutes); //promqna -> da vidq dali se chupi neshto
 
 	clients[orders[idOrder].getIdOwner()].addMessage("Your order has been accepted!");
 	clients[orders[idOrder].getIdOwner()].setOrder(orders[idOrder]);
@@ -555,11 +534,9 @@ void System::initiateDecliningOrder()
 		return;
 	}
 	if (orders[idOrder].getDriver() == &drivers[currentUserIndex]) //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
-																							da q ostavim v purvonachalno sustoqnie
+																									da q ostavim v purvonachalno sustoqnie
 	{
-		orders[idOrder].setAccepted(false);
-		orders[idOrder].setDriver(nullptr);
-		orders[idOrder].setMinutes(0);
+		orders[idOrder].changeOrderStatusToDeleted();
 		drivers[currentUserIndex].setStatus(false);
 	}
 	sendOrderToClosestDriver(orders[drivers[currentUserIndex].getOrders()[idOrder]]);
@@ -610,3 +587,16 @@ void System::initiateShowingProfile(char ch) const
 		drivers[currentUserIndex].showProfile();
 	}
 }
+
+
+template bool System::isTheUsernameUniqueInCollection<Client>(const std::string&, const std::vector<Client>& collection) const;
+template bool System::isTheUsernameUniqueInCollection<Driver>(const std::string&, const std::vector<Driver>& collection) const;
+
+template bool System::doesUserExist<Client>(const std::vector<Client>& collection, const std::string& username, const std::string& pass);
+template bool System::doesUserExist<Driver>(const std::vector<Driver>& collection, const std::string& username, const std::string& pass);
+
+template void System::writeUsersFromCurrentCollectionIntoFile<Client>(const std::string& fileName, const std::vector<Client>& collection) const;
+template void System::writeUsersFromCurrentCollectionIntoFile<Driver>(const std::string& fileName, const std::vector<Driver>& collection) const;
+
+template void System::readInfoFromCurrentCollectionFile<Client>(const std::string& file, std::vector<Client>& collection);
+template void System::readInfoFromCurrentCollectionFile<Driver>(const std::string& file, std::vector<Driver>& collection);

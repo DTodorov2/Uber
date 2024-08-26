@@ -13,14 +13,27 @@ class System
 	void validateType(std::string& type) const;
 	void validateString(const std::string& desc, std::string& str, char ch) const;
 	void validatePhoneOrCarNum(const std::string& regex, const std::string& str, const std::string& which, std::string& phoneNum) const;
-	int validateMinutesTillArrival() const;
+	size_t validateMinutesTillArrival() const;
 	size_t findFirstEmptyIndex() const;
 	void sendOrderToClosestDriver(Order& order);
 	int validateOrderId() const;
 	void removeOrderFromDrivers(size_t idOrder);
-	bool isTheUsernameUnique(const std::string& username) const;
+
+	template <typename T>
+	bool isTheUsernameUniqueInCollection(const std::string& username, const std::vector<T>& collection) const;
+	bool doesUsernameExist(const std::string& username) const;
+
+	template <typename T>
+	bool doesUserExist(const std::vector<T>& collection, const std::string& username, const std::string& pass);
+
+	template <typename T>
+	void readInfoFromCurrentCollectionFile(const std::string& file, std::vector<T>& collection);
+
+	template <typename T>
+	void writeUsersFromCurrentCollectionIntoFile(const std::string& fileName, const std::vector<T>& collection) const;
+
 	void deleteUserMessages(const std::string& type);
-	void writeInfoIntoFile(const std::string& type) const;
+
 
 public:
 	void registårUser();
@@ -39,5 +52,6 @@ public:
 	void initiateFinishingOrder();
 	void initiateShowingProfile(char ch = 'c') const;
 	void showUserMessages(const std::string& type) const;
-	void readInfoFromFile(const std::string& type);
+	void writeInfoIntoFile() const;
+	void readInfoFromFile();
 };
