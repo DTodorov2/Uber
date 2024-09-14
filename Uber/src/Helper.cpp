@@ -14,7 +14,7 @@ void Helper::validateCoordinate(const std::string& coord, double& coordinateNum,
 	coordinateNum = std::stod(coordinateString);
 }
 
-void Helper::addressInput(const std::string& str1, const std::string& str2, Address& address, char ch) // trqbva li da q razdelqm na oshte -> ne mislq
+void Helper::addressInput(const std::string& str1, const std::string& str2, Address& address, char ch)
 {
 	std::string addressName, additionalInfo, coordinateXStr, coordinateYStr;
 	double coordinateX = 0, coordinateY = 0;

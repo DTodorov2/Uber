@@ -7,13 +7,13 @@
 class Order
 {
 	bool accepted, finished;
-	Driver* driver; // shte sochi kum driver-a, koito e priel poruchkata, ne iskam da kopiram neshtata postoqnno
+	Driver* driver;
 	Address startAddress;
 	Address destAddress;
 	size_t passengersNum;
 	size_t minutesTillArrival;
 	std::string nameOwner;
-	int idOwner = -1; //trqq da e -1, shtoto taka proverqvam v klienta dali imam napravena poruchka
+	int idOwner = -1;
 	int idOrder = -1;
 	std::unordered_set<int> driversPassed;
 

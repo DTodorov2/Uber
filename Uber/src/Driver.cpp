@@ -29,13 +29,7 @@ const std::vector<size_t>& Driver::check_messages() const
 	return orders;
 }
 
-//void Driver::accept_order(int orderId, int minutes) // shtom go priemam kato argument, predpolagam, che sistemata shte si ima orderId-to veche\
-//i nqma da ima smisul da go vrushtam ot taq funkciq
-//{
-//	busy = true;
-//} // realno sled kato accept-ne, bi trqbvalo vsichki drugi poruchki da sa izprateni kum drugi driver-i i v orders da ima samo 1 element.
-
-void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
+void Driver::decline_order(int orderId)
 {
 	busy = false;
 	orders[orderId] = orders[orders.size() - 1];
@@ -45,8 +39,7 @@ void Driver::decline_order(int orderId) // da vidq v tetradkata kvo sum pisal
 void Driver::finish_order()
 {
 	busy = false;
-	orders.pop_back(); //sled tozi red, bi trqbvalo v orders da nqma nishto i da e sus size 0
-	//pri pay se iztriva samata poruchka, sled kato se plati, shtoto vinagi sled finish_order trqbva da se plati i taka nqma da ostane visqshta pamet
+	orders.pop_back(); 
 }
 
 void Driver::swapElementsInOrders(size_t ind1, size_t ind2)
