@@ -16,7 +16,7 @@ Order Client::makeOrder(size_t idOwner, size_t id, Address& currAddress, Address
 	return this->order; // RVO?
 }
 
-void Client::check_order() const
+void Client::checkOrder() const
 {
 	if (order.getIdOrder() == -1)
 	{
@@ -39,7 +39,7 @@ void Client::check_order() const
 	std::cout << "The driver's rating is: " << order.getDriver()->getRating() << std::endl;
 }
 
-void Client::cancel_order()
+void Client::cancelOrder()
 {
 	order = Order();
 	std::cout << "You have canceled your order successfully!" << std::endl;
@@ -74,7 +74,7 @@ double Client::validateAmount() const
 	return num;
 }
 
-bool Client::pay(double& doubleAmount) //pay se griji za plashtaneto na driver-a
+bool Client::pay(double& doubleAmount) 
 {
 	if (order.getIdOrder() == -1)
 	{
@@ -112,7 +112,7 @@ int Client::rate() const
 	return Helper::validateNum("Choose your rating: ", '1', '5');
 }
 
-void Client::add_money()
+void Client::addMoney()
 {
 	std::cout << "\nYour current balance is: " << getBalance() << std::endl;
 	std::cout << "\nEnter the amount of money you want to add to your balance: " << std::endl;;

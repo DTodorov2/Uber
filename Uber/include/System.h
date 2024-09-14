@@ -5,8 +5,8 @@
 
 class System
 {
-	std::vector<Driver> drivers; //tuka moje i da trqbva da e Driver bez *, shtoto dostupa taka e po-lesen, a az dostup shte opravqm
-	std::vector<Client> clients; // tuka sushto kato gornoto
+	std::vector<Driver> drivers;
+	std::vector<Client> clients;
 	std::vector<Order> orders;
 	int currentUserIndex = -1;
 
@@ -36,7 +36,7 @@ class System
 
 
 public:
-	void registårUser();
+	void registerUser();
 	void login(std::string& type);
 	void logout(const std::string& type);
 	void initiatePayment();

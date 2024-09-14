@@ -1,8 +1,6 @@
 #include <iostream>
 #include "../include/System.h"
 
-
-
 void validateOption(std::string& option, int downLimit, int upLimit)
 {
 	std::getline(std::cin, option);
@@ -91,7 +89,7 @@ void executeOption(System& sys, int key, std::string& type)
 		switch (key)
 		{
 		case 1:
-			sys.registårUser();
+			sys.registerUser();
 			break;
 		case 2:
 			sys.login(type);

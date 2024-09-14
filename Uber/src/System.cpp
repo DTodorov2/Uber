@@ -137,7 +137,7 @@ void System::sendOrderToClosestDriver(Order& order)
 	drivers[closestDriverId].addOrder(order.getIdOrder());
 }
 
-void System::registårUser()
+void System::registerUser()
 {
 	std::string type;
 	validateType(type);
@@ -264,7 +264,6 @@ void System::writeInfoIntoFile() const
 
 void System::logout(const std::string& type)
 {
-	//nqma da zapisvam infto tuka, shtoto pri exit napravo shte zapisvam vsichko vuv faila.
 	deleteUserMessages(type);
 	currentUserIndex = -1;
 }
@@ -393,7 +392,7 @@ void System::initiateMakingOrder()
 
 void System::initiateCheckingOrder() const
 {
-	clients[currentUserIndex].check_order();
+	clients[currentUserIndex].checkOrder();
 }
 
 void System::removeOrderFromDrivers(size_t idOrder)
@@ -435,7 +434,7 @@ void System::initiateCancelingOrder()
 		drivers[idDriver].addMessage("The order has been canceled!");
 	}
 	orders[idOrder].setIdOrder(-1);
-	clients[currentUserIndex].cancel_order();
+	clients[currentUserIndex].cancelOrder();
 }
 
 void System::initiateRate()
@@ -458,7 +457,7 @@ void System::initiateRate()
 
 void System::initateAddingMoney()
 {
-	clients[currentUserIndex].add_money();
+	clients[currentUserIndex].addMoney();
 }
 
 void System::initiateChangingAddress()
@@ -486,7 +485,8 @@ int System::validateOrderId() const
 			upperLimit = currOrderId;
 		}
 	}
-	if (num < 0 || num > upperLimit || orders[num].getIdOrder() == -1) // nz za kvo mi e poslednata proverka -> za da proverq dali poruchkata vse oshte sushtestvuva
+	// The last check is to check wether the order still exists
+	if (num < 0 || num > upperLimit || orders[num].getIdOrder() == -1) 
 	{
 		num = -1;
 	}
@@ -508,7 +508,7 @@ void System::initiateAcceptingOrder()
 	}
 	size_t minutes = validateMinutesTillArrival();
 
-	orders[idOrder].changeOrderStatusToAccepted(&drivers[currentUserIndex], minutes); //promqna -> da vidq dali se chupi neshto
+	orders[idOrder].changeOrderStatusToAccepted(&drivers[currentUserIndex], minutes);
 
 	clients[orders[idOrder].getIdOwner()].addMessage("Your order has been accepted!");
 	clients[orders[idOrder].getIdOwner()].setOrder(orders[idOrder]);
@@ -533,8 +533,8 @@ void System::initiateDecliningOrder()
 		std::cout << "No such order!" << std::endl;
 		return;
 	}
-	if (orders[idOrder].getDriver() == &drivers[currentUserIndex]) //tova go pravq, za da moje, ako iskame da otkajem nqkakva poruchka, koqto predi tova sme prieli\
-																									da q ostavim v purvonachalno sustoqnie
+	//Do this, because I want to leave the order in the initial state if a driver has already accepted it
+	if (orders[idOrder].getDriver() == &drivers[currentUserIndex]) 
 	{
 		orders[idOrder].changeOrderStatusToDeleted();
 		drivers[currentUserIndex].setStatus(false);
