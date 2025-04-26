@@ -1,38 +1,56 @@
-# Uber
-**Documentation Uber**
+# Uber 🚕
 
-Проектът *„Uber“* представлява опростена система на таксиметрова компания, която поддържа два вида потребители – клиенти и шофьори. Те могат да се регистрират в системата и да влизат в нея чрез потребителско име и парола. При регистрация се прави проверка от системата дали вече съществува потребител с такова потребителско име, ако не – потребителят може да продължи работата си, иначе трябва да въведе ново потребителско име. При стартирането на програмата трябва да бъдат налични два файла с име *„clients“* и *„drivers“*, за да може системата да прочете нужната информация от тях при стартирането си и при нужда да запише наличната информация в тях. Ако такива файлове не съществуват, то програмата няма да може да прочете записаните, до момента, промени.
+The *"Uber"* project represents a simplified taxi company system that supports two types of users: customers and drivers. Users can register and log in using a username and password.    
+Upon registration, the system checks if a user with the same username already exists. If not, the user can proceed; otherwise, they will be prompted to choose a new username.     
+Upon launching the program, two files named *"clients"* and *"drivers"* must be present for the system to read the necessary information and save updates.    
+If these files are missing, the program cannot read or save any changes.
 
-При вход на потребител в системата като клиент, то той ще може да изпълнява следните действия:
+## Customer Actions:
 
-1.	*Поръчка на такси* – изисква се брой хора, текущ адрес и текущи координати, като се дава възможност и за допълнителна информация, която обаче е опционална (чрез натискане на *Enter* може да се избегне въвеждането на допълнителна информация). Това действие бива последвано от въвеждане на крайната дестинация и нейните координати, като въпросът относно допълнителната информация е същият. Новонаправената поръчка се изпраща на най-близкия до началната дестинация свободен шофьор, като при отказ на шофьора да приеме дадената поръчка, тя бива изпратена на следващия най-близък свободен. Ако никой шофьор не приеме дадената поръчка, то тя бива отказана и се изпраща подходящо съобщение до клиента, като след това той има възможност да направи друга поръчка. Даден клиент не може да прави повече от една поръчка наведнъж. Ако иска да си промени поръчката, той трябва да откаже старата и да направи нова.
+1. **Order a Taxi**  
+   The customer provides the number of passengers, current address, and coordinates, with an optional field for additional information. Then, the customer inputs the final destination and its coordinates.    
+The order is sent to the nearest available driver. If the driver refuses, the order is forwarded to the next closest driver.    
+If no driver accepts the order, it is canceled, and the customer receives a suitable message. The customer can only have one active order at a time.    
+If they wish to change it, they must cancel the previous one and create a new order.
 
-2.	*Проверка на поръчка* – след като даден клиент направи поръчка, тя остава в състояние на изчакване. Ако потребителят се опита да провери своята поръчка и тя не е била приета все още, то ще се изпише съобщение *„Your order is not accepted yet!“*. Ако поръчката е била приета, то се изписват данните на шофьора (име и фамилия, номер на автомобил, телефонен номер и рейтинг на конкретния шофьор) и след колко време ще пристигне.
+3. **Check Order**  
+   After placing an order, the status remains in waiting. If the customer checks the order before it's accepted, a message saying *"Your order is not accepted yet!"* will be shown.    
+If the order is accepted, the driver's details (name, surname, car number, phone number, and rating) along with the estimated arrival time are displayed.
 
-3.	*Отмяна на поръчка* – след направата на дадена поръчка, клиентът има възможност да я отмени. Ако поръчката е била вече приета от някой шофьор, то му се изпраща съобщение, че поръчката е отменена и го освобождава от длъжност.
+5. **Cancel Order**  
+   Customers can cancel an order. If the order is already accepted by a driver, a message will be sent to the driver, and the order is canceled, releasing the driver from the task.
 
-4.	*Плащане на поръчка* – след изпълнението на дадена поръчка, клиентът трябва да плати за нея, но това става единствено след като шофьорът отбележи дадената поръчка за завършена. Ако клиентът се опита да направи нова поръчка, докато има стара, която трябва да се плати се изписва съобщение *„There is an order you need to pay for first!“*. Ако поръчката не е отбелязана като завършена, то се изписва съобщение на клиента *„You must wait for the driver to assure the order is finished.“*. След плащане, клиентът има право да оцени шофьорът, извършил конкретната поръчка. Като оценката, която може да даде е между 1 и 5. Ако клиентът не иска да даде оценка, то се изпълнява действието на програмата.
+6. **Pay for Order**  
+   After the order is completed, the customer is required to pay, but only after the driver marks the order as completed. If the customer tries to make a new order without paying for the previous one, a message *"There is an order you need to pay for first!"* will be shown. If the order has not been marked as completed, the message *"You must wait for the driver to assure the order is finished."* will be displayed. After payment, the customer can rate the driver with a score between 1 and 5. If the customer doesn’t want to rate, the program continues as usual.
 
-5.	*Добавяне на пари към сметка* – Клиентът добавя пари към сметката на потребителя. За удобство приемаме, че е въведена валидна кредитна или дебитна карта и не се правят допълнителни проверки за нея.
+7. **Add Funds to Account**  
+   The customer can add money to their account. For simplicity, it's assumed that a valid credit or debit card is used, with no further checks needed.
 
-6.	*Преглед на профила* – при избиране на тази опция се изписват данните на клиента.
+8. **View Profile**  
+   Displays the customer's profile details.
 
-7.	*Покажи моите съобщения* – При избиране на тази опция се показват съобщенията на клиента, като при излизане от профила, те биват изтрити.
+9. **Show My Messages**  
+   Displays messages for the customer, which are deleted upon logging out.
 
-При вход на потребител в системата като шофьор, то той ще може да изпълнява следните действия:
+## Driver Actions:
 
-1.	*Промяна на адрес* – тази опция позволява на шофьора да промени текущия си адрес, като се изисква името на новия адрес и съответните координати.
+1. **Change Address**  
+   Drivers can change their current address and coordinates by entering the new address and its corresponding coordinates.
 
-2.	*Проверка на поръчките* – тази опция позволява на шофьора да прегледа всички поръчки, изпратени към него, като за всяка поръчка излиза идентификационният номер на самата поръчка, от кого е направена, началната дестинация и крайната дестинация, заедно със съответните им координати.
+2. **Check Orders**  
+   Drivers can view all orders sent to them, including the order ID, the customer's details, and both the starting and final destinations with their coordinates.
 
-3.	*Приеми поръчка* – тази опция позволява на шофьора да приеме дадена поръчка, като изисква идентификационният номер на поръчката, която трябва да се приеме. При приемане на дадена поръчка, всички други поръчки, които са изпратени на него, биват препратени на следващите най-близки шофьори. След като даден шофьор е приел дадена поръчка, няма как да приеме друга. След приемане на дадена поръчка, шофьорът трябва да въведе времето, което му е нужно да стигне до съответната дестинация.
+3. **Accept Order**  
+   Drivers can accept an order by entering the order ID. Once accepted, no further orders can be accepted. After accepting an order, the driver must enter the estimated time to reach the destination.
 
-4.	*Откажи поръчка* – тази опция позволява на шофьора да откаже поръчка, като се изисква въвеждането на идентификационен номер на поръчката, която ще се откаже. След като даден шофьор откаже дадена поръчка, тя се премахва от списъка му с поръчки и се препраща към следващия най-близък шофьор.
+4. **Reject Order**  
+   Drivers can reject an order by entering the order ID. The rejected order will be removed from their list and sent to the next closest driver.
 
-5.	*Приключи поръчка* – отбелязва се поръчката, която шофьорът е приел, за завършена, което, от своя страна, дава възможност на клиента да плати и освобождава шофьора.
+5. **Complete Order**  
+   Marks the accepted order as completed, allowing the customer to pay and freeing the driver from the task.
 
-6.	*Преглед на профила* - при избиране на тази опция се изписват данните на шофьора.
+6. **View Profile**  
+   Displays the driver's profile details.
 
-7.	*Покажи моите съобщения* – При избиране на тази опция се показват съобщенията на клиента, като при излизане от профила, те биват изтрити.
-
-
+7. **Show My Messages**  
+   Displays the driver's messages, which are deleted upon logging out.
